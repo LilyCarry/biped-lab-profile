@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>徐凯睿 · 双足实验室招新第一轮考核 | 自动化 2026</title>
+  <title>徐凯睿 · 双足实验室招新考核 | 自动化 2026</title>
   
   <!-- Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- GSAP 3 & ScrollTrigger for physics damped scroll expansion -->
+  <!-- GSAP 3 & ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
@@ -25,9 +25,9 @@
             },
             noir: {
               bg: '#05070c',
-              surface: '#0b101d',
-              card: '#0e1526',
-              border: '#1b253b',
+              surface: '#0a101d',
+              card: '#0d1424',
+              border: '#182236',
               muted: '#64748b',
             }
           },
@@ -41,21 +41,20 @@
   </script>
 
   <style>
-    /* Strict font anti-aliasing across all elements */
+    /* Strict font anti-aliasing */
     *, *::before, *::after {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
     }
 
-    /* Refined scrollbar */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: #05070c; }
-    ::-webkit-scrollbar-thumb { background: #1b253b; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb { background: #182236; border-radius: 2px; }
     ::-webkit-scrollbar-thumb:hover { background: #ff6600; }
     
     .bg-grid-tech {
-      background-size: 36px 36px;
+      background-size: 40px 40px;
       background-image: 
         linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
@@ -68,130 +67,115 @@
 </head>
 <body class="bg-[#05070c] text-slate-100 font-sans selection:bg-[#ff6600] selection:text-black min-h-[100dvh] antialiased bg-grid-tech overflow-x-hidden">
 
-  <!-- ==================== HERO SECTION (75/25 分屏 + MISTRAL 全屏阻尼拓展) ==================== -->
+  <!-- ==================== HERO SECTION (超大字号冲击力 + 水平分栏 + 阻尼全屏拓展) ==================== -->
   <section id="hero" class="relative overflow-hidden lg:h-dvh flex flex-col justify-between">
     
-    <!-- 极简暗黑微光晕 -->
+    <!-- 背景微暗晕 -->
     <div class="pointer-events-none absolute inset-0">
       <div class="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-orange-950/15 to-transparent"></div>
-      <div class="absolute -right-20 top-20 h-96 w-96 rounded-full bg-orange-600/8 blur-3xl"></div>
+      <div class="absolute -right-24 top-16 h-96 w-96 rounded-full bg-orange-600/8 blur-3xl"></div>
     </div>
 
-    <!-- 主屏分栏 -->
+    <!-- 主屏分栏 (左 75% 满幅霸屏，右 25% 紧凑待拓展) -->
     <div class="relative flex flex-col lg:h-full lg:flex-row w-full">
       
-      <!-- 左屏 (75%)：顶栏、主宣言、三块核心分屏卡片 -->
-      <div id="panel-left" class="relative z-10 flex min-w-0 flex-col lg:w-3/4">
+      <!-- ==================== 左屏 (75%) ==================== -->
+      <div id="panel-left" class="relative z-10 flex min-w-0 flex-col justify-between lg:w-3/4 p-6 sm:p-10 lg:p-12 lg:pr-16">
         
-        <!-- 顶栏：轻量极简导航 -->
-        <header id="hero-header" class="flex items-center justify-between px-6 pt-7 lg:px-12">
-          <div class="flex items-center space-x-3.5">
-            <div class="w-9 h-9 rounded-lg bg-orange-950/80 border border-orange-500/40 flex items-center justify-center text-orange-400 font-mono font-bold text-sm shadow-sm">
+        <!-- 顶部极简身份与外链 (水平分栏) -->
+        <header id="hero-header" class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-orange-950/80 border border-orange-500/40 flex items-center justify-center text-orange-400 font-mono font-bold text-xs">
               KR
             </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="text-base font-bold tracking-tight text-white">徐凯睿</span>
-                <span class="text-xs font-mono text-slate-400">/ LilyCarry</span>
-                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-orange-950/50 text-orange-300 border border-orange-800/40">ZZU 自动化</span>
-              </div>
-              <span class="text-xs text-slate-400 font-mono">双足实验室 2026 招新考核</span>
+            <div class="flex items-center gap-2 font-mono text-xs">
+              <span class="font-bold text-white tracking-wide">徐凯睿</span>
+              <span class="text-slate-500">/ LilyCarry</span>
+              <span class="px-2 py-0.5 rounded bg-orange-950/60 text-orange-400 border border-orange-800/40 text-[11px]">ZZU 自动化 '26</span>
             </div>
           </div>
 
-          <div class="flex items-center space-x-3 text-xs font-mono">
+          <div class="flex items-center space-x-4 text-xs font-mono">
             <a href="https://github.com/LilyCarry" target="_blank" rel="noopener noreferrer" 
-               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-orange-500/50 text-slate-300 hover:text-white transition-all">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+               class="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
               <span>GitHub</span>
             </a>
-            <a href="mailto:xu762556@outlook.com" 
-               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-orange-950/60 border border-orange-500/40 hover:bg-orange-900/50 text-orange-300 transition-all">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              <span>邮箱</span>
+            <a href="mailto:xu762556@outlook.com" class="text-orange-400/90 hover:text-orange-300 transition-colors flex items-center gap-1">
+              <span>xu762556@outlook.com</span>
             </a>
           </div>
         </header>
 
-        <!-- 视觉核心：大标题与自驱事实 -->
-        <div class="px-6 pt-10 pb-6 lg:px-12 lg:pt-14 space-y-5">
-          <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-[1.12]">
-            从物理微世界到具身智能，<br>
+        <!-- 视觉绝对重心：特别大的主标题，占满左侧视野 (Mistral Bold Impact) -->
+        <div class="my-auto py-8 space-y-5">
+          <div class="inline-flex items-center gap-2 font-mono text-xs text-orange-400">
+            <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+            <span>双足实验室 2026 招新考核 · 个人主页</span>
+          </div>
+
+          <h1 class="text-5xl sm:text-7xl lg:text-8xl xl:text-[5.6rem] font-black tracking-tight text-white leading-[0.98]">
+            从物理感知<br>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-400">
-              用工程闭环交付每一个想法。
+              到具身智能。
             </span>
           </h1>
 
-          <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl font-mono">
-            高三实现 ESP8266 连续环境采集；高考后攻关 STM32 控制、双芯协议解耦与 4 层 PCB 打板闭环。
-            善用 AI 工具流，在手环生态独立完成产品研发与商业交付；向上游水杉输入法与拾光课表贡献核心代码。
-            目前已完成考核飞控板布线采购，物料明日即达，即刻前往 1123 实验室首件焊接。
+          <p class="text-sm sm:text-base text-slate-300 font-mono max-w-2xl leading-relaxed pt-2">
+            用工程闭环交付想法。专注底层硬件打板、多总线协议协同、开源贡献与商业交付。
+            考核飞控板物料明日送达，即刻前往 1123 实验室首件贴片实测。
           </p>
         </div>
 
-        <!-- Mistral 风格三块分屏卡片 (Three-Split Deck) -->
-        <div class="mt-auto px-6 pb-12 lg:px-12 lg:pb-12">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            
-            <!-- Block 1: 硬件工程 -->
-            <div class="rounded-xl border border-[#1b253b] bg-[#0c1222]/80 p-5 transition hover:-translate-y-1 hover:border-orange-500/50">
-              <div class="flex items-center justify-between text-xs font-mono mb-2">
-                <span class="text-orange-400 font-bold">01 / 硬件工程</span>
-                <span class="text-slate-400">6+ 块打板</span>
-              </div>
-              <div class="text-base font-bold text-white">4 层飞控板 · 首件待焊</div>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed font-mono">
-                50×40mm 4层板，5V 25mil 加粗，LDO 大面积铺铜；物料明日送达 1123 实验室首焊。
-              </p>
+        <!-- 底部水平分栏介绍：告别臃肿竖向卡片，采用轻盈的分栏条 (Horizontal Split Deck) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-[#182236]/80 font-mono">
+          
+          <div class="space-y-1">
+            <div class="text-xs text-orange-400 font-bold flex items-center gap-1.5">
+              <span>01</span> <span>硬件工程</span>
             </div>
-
-            <!-- Block 2: 开源交付 -->
-            <div class="rounded-xl border border-[#1b253b] bg-[#0c1222]/80 p-5 transition hover:-translate-y-1 hover:border-emerald-500/50">
-              <div class="flex items-center justify-between text-xs font-mono mb-2">
-                <span class="text-emerald-400 font-bold">02 / 开源交付</span>
-                <span class="text-slate-400">2 项 PR 合并</span>
-              </div>
-              <div class="text-base font-bold text-white">水杉输入法 &amp; 拾光课表</div>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed font-mono">
-                水杉输入法 C++ 滚轮翻页 (Fixes #81) + 拾光课程表郑大教务 4 步协议链逆向适配。
-              </p>
-            </div>
-
-            <!-- Block 3: 商业闭环 -->
-            <div class="rounded-xl border border-[#1b253b] bg-[#0c1222]/80 p-5 transition hover:-translate-y-1 hover:border-yellow-500/50">
-              <div class="flex items-center justify-between text-xs font-mono mb-2">
-                <span class="text-yellow-400 font-bold">03 / 商业闭环</span>
-                <span class="text-slate-400">持续每日营收</span>
-              </div>
-              <div class="text-base font-bold text-white">小米手环生态 · 自动发货</div>
-              <p class="text-xs text-slate-300 mt-2 leading-relaxed font-mono">
-                借助 AI 打造《闪电记账本》与《环间驾考》，自研自动发货 Daemon，累计营收 1000+ 元。
-              </p>
-            </div>
-
+            <div class="text-sm font-bold text-white">4层飞控板 · 明日首焊</div>
+            <p class="text-xs text-slate-400">50×40mm 4层板 · 5V 25mil · LDO 铺铜</p>
           </div>
+
+          <div class="space-y-1">
+            <div class="text-xs text-emerald-400 font-bold flex items-center gap-1.5">
+              <span>02</span> <span>开源交付</span>
+            </div>
+            <div class="text-sm font-bold text-white">水杉输入法 &amp; 拾光课表</div>
+            <p class="text-xs text-slate-400">C++ 滚轮翻页 (PR #81) · 4步协议逆向</p>
+          </div>
+
+          <div class="space-y-1">
+            <div class="text-xs text-yellow-400 font-bold flex items-center gap-1.5">
+              <span>03</span> <span>商业闭环</span>
+            </div>
+            <div class="text-sm font-bold text-white">小米手环生态 · 持续变现</div>
+            <p class="text-xs text-slate-400">自研自动发货 Daemon · 1000+ 元营收</p>
+          </div>
+
         </div>
 
       </div>
 
-      <!-- 右屏 (25% → 滚动阻尼拓展占满 100% 全屏) -->
-      <aside id="panel-right" class="relative z-20 border-t border-[#1b253b] bg-[#05070c] lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/4 lg:border-l lg:border-t-0 flex flex-col justify-between overflow-hidden shadow-2xl">
+      <!-- ==================== 右屏 (25% → 滚动阻尼拓展占满 100% 全屏) ==================== -->
+      <aside id="panel-right" class="relative z-20 border-t border-[#182236] bg-[#05070c] lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/4 lg:border-l lg:border-t-0 flex flex-col justify-between overflow-hidden shadow-2xl">
         
-        <!-- 窄态预览 -->
-        <div id="panel-compact" class="flex flex-col justify-between p-6 lg:h-full lg:p-9">
+        <!-- 窄态预览 (桌面待拓展) -->
+        <div id="panel-compact" class="flex flex-col justify-between p-6 lg:h-full lg:p-10">
           <div>
-            <div class="text-xs font-mono text-orange-400 font-bold tracking-wider">
+            <div class="text-xs font-mono text-orange-400 font-bold tracking-widest">
               DIRECTION // 01
             </div>
             <h2 class="mt-4 text-2xl font-black tracking-tight text-white">意向方向</h2>
-            <div class="mt-2 text-2xl font-black text-orange-400">工业测量 &amp; 3D</div>
-            <p class="mt-5 text-sm text-slate-300 leading-relaxed font-mono">
+            <div class="mt-2 text-2xl lg:text-3xl font-black text-orange-400">工业测量 &amp; 3D</div>
+            <p class="mt-6 text-sm text-slate-300 leading-relaxed font-mono">
               具身智能走向物理世界的空间锚点。<br>
               大模型缺乏几何公差感知，工业测量与 3D 点云配准是唯一的精确度量衡。
             </p>
           </div>
 
-          <div class="space-y-4 pt-6 border-t border-[#1b253b]">
+          <div class="space-y-4 pt-6 border-t border-[#182236]">
             <div class="space-y-2 font-mono text-xs text-slate-300">
               <div class="flex justify-between">
                 <span class="text-slate-400">硬件支点：</span>
@@ -214,11 +198,11 @@
           </div>
         </div>
 
-        <!-- 全屏展开态 -->
+        <!-- 全屏展开态 (滚动时淡入接管 100% 视口) -->
         <div id="panel-full" class="opacity-0 absolute inset-0 p-8 sm:p-14 lg:p-20 bg-[#05070c] flex flex-col justify-between overflow-y-auto pointer-events-none">
           <div class="max-w-5xl mx-auto w-full space-y-8">
             
-            <div class="flex items-center justify-between border-b border-[#1b253b] pb-4">
+            <div class="flex items-center justify-between border-b border-[#182236] pb-4">
               <span class="px-2.5 py-1 rounded text-xs font-mono bg-orange-950 text-orange-400 border border-orange-800/80 font-bold">
                 LAB DIRECTION // 工业测量 &amp; 3D
               </span>
@@ -226,10 +210,10 @@
             </div>
 
             <div class="space-y-4">
-              <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight">
+              <h2 class="text-4xl sm:text-6xl font-black text-white leading-tight">
                 工业测量 &amp; 3D：<br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-400">
-                  具身机器人干预物理世界的绝对度量衡
+                  具身机器人干预现实的绝对度量衡
                 </span>
               </h2>
               <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-mono max-w-3xl">
@@ -238,34 +222,34 @@
               </p>
             </div>
 
-            <!-- 核心三支点卡片 -->
+            <!-- 三支点分栏 -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div class="p-5 rounded-xl bg-[#0c1222] border border-[#1b253b] space-y-2.5">
+              <div class="p-5 rounded-xl bg-[#0a101d] border border-[#182236] space-y-2">
                 <div class="text-sm font-bold font-mono text-orange-400">01. 认知的跃迁</div>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  跳出传统质检打表的狭隘定义，将其视为具身智能从虚拟走向物理现实的度量基石。通过 3D 点云处理与空间几何重建，将物理世界数字化。
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-mono">
+                  跳出传统质检打表的狭隘定义，将其视为具身智能从虚拟走向物理现实的度量基石。
                 </p>
               </div>
 
-              <div class="p-5 rounded-xl bg-[#0c1222] border border-[#1b253b] space-y-2.5">
+              <div class="p-5 rounded-xl bg-[#0a101d] border border-[#182236] space-y-2">
                 <div class="text-sm font-bold font-mono text-emerald-400">02. 下层工程支点</div>
-                <ul class="text-xs sm:text-sm text-slate-300 space-y-1.5 font-mono leading-relaxed">
-                  <li>• <strong>硬件层：</strong>懂 PCB 原理图走线、低噪声滤波与总线通信。</li>
-                  <li>• <strong>空间层：</strong>掌握 SolidWorks 机械装配仿真，具备几何公差直觉。</li>
+                <ul class="text-xs sm:text-sm text-slate-300 space-y-1 font-mono leading-relaxed">
+                  <li>• PCB 原理图走线、低噪声滤波与总线通信。</li>
+                  <li>• SolidWorks 机构装配与几何公差手感。</li>
                 </ul>
               </div>
 
-              <div class="p-5 rounded-xl bg-[#0c1222] border border-[#1b253b] space-y-2.5">
+              <div class="p-5 rounded-xl bg-[#0a101d] border border-[#182236] space-y-2">
                 <div class="text-sm font-bold font-mono text-cyan-400">03. 实验室突破目标</div>
-                <ul class="text-xs sm:text-sm text-slate-300 space-y-1.5 font-mono leading-relaxed">
-                  <li>• <strong>点云配准：</strong>深入学习 PCL / ICP 算法与 6D 位姿识别。</li>
-                  <li>• <strong>手眼标定：</strong>攻克机器人手眼协同闭环，实现亚毫米纠偏。</li>
+                <ul class="text-xs sm:text-sm text-slate-300 space-y-1 font-mono leading-relaxed">
+                  <li>• 深入学习 PCL / ICP 算法与 6D 位姿识别。</li>
+                  <li>• 攻克机器人手眼协同闭环，实现亚毫米纠偏。</li>
                 </ul>
               </div>
             </div>
 
-            <!-- 极简系统闭环链路 -->
-            <div class="p-5 rounded-xl bg-[#0c1222] border border-[#1b253b] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs sm:text-sm">
+            <!-- 系统闭环链路 -->
+            <div class="p-5 rounded-xl bg-[#0a101d] border border-[#182236] flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs sm:text-sm">
               <div class="flex items-center gap-3">
                 <span class="px-2 py-0.5 rounded bg-orange-950 text-orange-400 font-bold border border-orange-800/60">VLA 闭环</span>
                 <span class="text-slate-300">3D 点云感知 &rarr; 6D 位姿矩阵 &rarr; 动作规划 &rarr; 精密伺服执行</span>
@@ -287,14 +271,9 @@
       <div class="h-1/3 w-full" style="background: linear-gradient(90deg, #fa520f, #e10500, #a8268f)"></div>
     </div>
 
-    <!-- 滚动提示 -->
-    <div id="scroll-hint" class="absolute bottom-5 left-1/2 z-30 -translate-x-1/2 font-mono text-xs text-slate-500 hidden lg:block">
-      <span>向下滚动 · 阻尼展开全屏</span>
-    </div>
-
   </section>
 
-  <!-- ==================== 详细项目实证章节 (极简纯净流) ==================== -->
+  <!-- ==================== 详细项目实证章节 (极简纯净分栏流) ==================== -->
   <main class="max-w-7xl mx-auto px-6 lg:px-12 py-20 w-full space-y-24 z-20">
 
     <!-- ==================== 02 真实自驱 · 软硬件与三维机构 ==================== -->
@@ -309,7 +288,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <!-- Card 1: SmartHome Dual Core -->
-        <div class="rounded-xl border border-[#1b253b] bg-[#0c1222] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
+        <div class="rounded-xl border border-[#182236] bg-[#0a101d] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
           <div class="space-y-3.5">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-orange-400 font-bold">嵌入式中枢</span>
@@ -325,7 +304,7 @@
               <li>• <strong>总线排错：</strong>自研 UART DMA + 1024B 环形缓冲区协议，修复 I2C 9脉冲总线锁死。</li>
             </ul>
           </div>
-          <div class="pt-4 border-t border-[#1b253b] flex items-center justify-between">
+          <div class="pt-4 border-t border-[#182236] flex items-center justify-between">
             <a href="https://github.com/LilyCarry/SmartHome_DualCore" target="_blank" class="text-xs font-mono text-orange-400 hover:text-orange-300 flex items-center gap-1">
               查看 GitHub 仓库 &rarr;
             </a>
@@ -334,7 +313,7 @@
         </div>
 
         <!-- Card 2: High School Temperature -->
-        <div class="rounded-xl border border-[#1b253b] bg-[#0c1222] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
+        <div class="rounded-xl border border-[#182236] bg-[#0a101d] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
           <div class="space-y-3.5">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-emerald-400 font-bold">高三探索</span>
@@ -344,7 +323,7 @@
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-mono">
               高三时期利用 ESP8266 自主搭建连续温湿度采集节点与 Python 同步链路。
             </p>
-            <div class="rounded-lg overflow-hidden border border-[#1b253b] cursor-pointer" onclick="openLightbox('assets/esp8266_tem_chart.png', '高三时期制作的 ESP8266 长期温湿度监控数据图表与 Python 同步链路')">
+            <div class="rounded-lg overflow-hidden border border-[#182236] cursor-pointer" onclick="openLightbox('assets/esp8266_tem_chart.png', '高三时期制作的 ESP8266 长期温湿度监控数据图表与 Python 同步链路')">
               <img src="assets/esp8266_tem_chart.png" alt="ESP8266 监测图表" class="w-full h-36 object-cover object-center hover:scale-105 transition-transform duration-300">
               <div class="p-2 bg-[#05070c] text-[11px] text-slate-400 font-mono flex justify-between">
                 <span>历史采集折线图</span>
@@ -355,7 +334,7 @@
               编写 Python 上位机脚本长期收集温湿度并生成连续折线图，验证长期稳定性。
             </p>
           </div>
-          <div class="pt-4 border-t border-[#1b253b] flex items-center justify-between">
+          <div class="pt-4 border-t border-[#182236] flex items-center justify-between">
             <a href="https://github.com/LilyCarry/ESP8266_TEM" target="_blank" class="text-xs font-mono text-orange-400 hover:text-orange-300 flex items-center gap-1">
               查看 GitHub 仓库 &rarr;
             </a>
@@ -364,7 +343,7 @@
         </div>
 
         <!-- Card 3: SolidWorks CAD Assemblies -->
-        <div class="rounded-xl border border-[#1b253b] bg-[#0c1222] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
+        <div class="rounded-xl border border-[#182236] bg-[#0a101d] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
           <div class="space-y-3.5">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-purple-400 font-bold">三维空间</span>
@@ -375,11 +354,11 @@
               掌握三维机械 CAD，独立完成复杂机构装配体建模、运动学配合与运动仿真（实机动画帧）：
             </p>
             <div class="grid grid-cols-2 gap-2.5">
-              <div class="rounded-lg overflow-hidden border border-[#1b253b] cursor-pointer bg-white" onclick="openLightbox('assets/cad_assembly_demo1.png', 'SolidWorks 项目一：转盘导轨滑块连杆机构三维装配体与运动仿真')">
+              <div class="rounded-lg overflow-hidden border border-[#182236] cursor-pointer bg-white" onclick="openLightbox('assets/cad_assembly_demo1.png', 'SolidWorks 项目一：转盘导轨滑块连杆机构三维装配体与运动仿真')">
                 <img src="assets/cad_assembly_demo1.png" alt="导轨机构装配" class="w-full h-24 object-contain hover:scale-105 transition-transform">
                 <div class="p-1 bg-[#05070c] text-[10px] text-center text-slate-300 font-mono">导轨滑块机构</div>
               </div>
-              <div class="rounded-lg overflow-hidden border border-[#1b253b] cursor-pointer bg-white" onclick="openLightbox('assets/cad_assembly_demo2.png', 'SolidWorks 项目二：十字轴转盘连杆活塞机构三维装配体与运动仿真')">
+              <div class="rounded-lg overflow-hidden border border-[#182236] cursor-pointer bg-white" onclick="openLightbox('assets/cad_assembly_demo2.png', 'SolidWorks 项目二：十字轴转盘连杆活塞机构三维装配体与运动仿真')">
                 <img src="assets/cad_assembly_demo2.png" alt="活塞连杆机构装配" class="w-full h-24 object-contain hover:scale-105 transition-transform">
                 <div class="p-1 bg-[#05070c] text-[10px] text-center text-slate-300 font-mono">十字轴活塞机构</div>
               </div>
@@ -388,7 +367,7 @@
               完成了 STEP 格式装配体导出与运动学干涉检测，建立对真实机械结构的三维直觉。
             </p>
           </div>
-          <div class="pt-4 border-t border-[#1b253b] flex items-center justify-between">
+          <div class="pt-4 border-t border-[#182236] flex items-center justify-between">
             <span class="text-xs font-mono text-purple-300">STEP 运动学验证通过</span>
             <span class="text-[11px] font-mono text-slate-400">点击查看高保真图</span>
           </div>
@@ -409,7 +388,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <!-- Card 1: MSIME Pull Request -->
-        <div class="rounded-xl border border-[#1b253b] bg-[#0c1222] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
+        <div class="rounded-xl border border-[#182236] bg-[#0a101d] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
           <div class="space-y-3.5">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-blue-400 font-bold">C++ 核心贡献</span>
@@ -420,15 +399,15 @@
               向现代 Windows 平台 C++ 开源输入法项目贡献核心特性：
             </p>
             <ul class="text-xs sm:text-sm text-slate-300 space-y-2 font-mono">
-              <li class="bg-[#05070c] p-3 rounded-lg border border-[#1b253b]">
+              <li class="bg-[#05070c] p-3 rounded-lg border border-[#182236]">
                 <strong class="text-orange-400">• 滚轮翻页交互：</strong> 在候选窗服务拦截分发鼠标滚轮事件，实现候选词平滑翻页。
               </li>
-              <li class="bg-[#05070c] p-3 rounded-lg border border-[#1b253b]">
+              <li class="bg-[#05070c] p-3 rounded-lg border border-[#182236]">
                 <strong class="text-orange-400">• MSVC 编码排错：</strong> 排查解决 Windows MSVC 默认 GBK 编译 UTF-8 源码导致的跨平台报错。
               </li>
             </ul>
           </div>
-          <div class="pt-4 border-t border-[#1b253b] flex items-center justify-between">
+          <div class="pt-4 border-t border-[#182236] flex items-center justify-between">
             <a href="https://github.com/metasequoiaime/MSIME-Windows" target="_blank" class="text-xs font-mono text-orange-400 hover:text-orange-300 flex items-center gap-1">
               查看 Upstream 仓库 &rarr;
             </a>
@@ -437,7 +416,7 @@
         </div>
 
         <!-- Card 2: Shiguang Timetable -->
-        <div class="rounded-xl border border-[#1b253b] bg-[#0c1222] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
+        <div class="rounded-xl border border-[#182236] bg-[#0a101d] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
           <div class="space-y-3.5">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-cyan-400 font-bold">协议逆向</span>
@@ -447,7 +426,7 @@
             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-mono">
               为开源课程表独立逆向梳理郑州大学新版树维教务系统完整的 4 步网络协议链：
             </p>
-            <div class="bg-[#05070c] p-3.5 rounded-lg border border-[#1b253b] font-mono text-xs text-slate-300 space-y-1.5">
+            <div class="bg-[#05070c] p-3.5 rounded-lg border border-[#182236] font-mono text-xs text-slate-300 space-y-1.5">
               <div class="text-orange-400 font-bold">4 步协议规范：</div>
               <div>1. CAS 统一认证与 Token 鉴权</div>
               <div>2. 树维移动端 SSO 会话打通</div>
@@ -458,7 +437,7 @@
               适配脚本已合入主仓库，持续服务全校师生课表一键同步。
             </p>
           </div>
-          <div class="pt-4 border-t border-[#1b253b] flex items-center justify-between">
+          <div class="pt-4 border-t border-[#182236] flex items-center justify-between">
             <a href="https://github.com/XingHeYuZhuan/shiguang_warehouse" target="_blank" class="text-xs font-mono text-orange-400 hover:text-orange-300 flex items-center gap-1">
               查看官方适配库 &rarr;
             </a>
@@ -467,7 +446,7 @@
         </div>
 
         <!-- Card 3: Wristband Ecosystem -->
-        <div class="rounded-xl border border-[#1b253b] bg-[#0c1222] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
+        <div class="rounded-xl border border-[#182236] bg-[#0a101d] p-6 transition hover:-translate-y-1 hover:border-orange-500/40 flex flex-col justify-between space-y-5">
           <div class="space-y-3.5">
             <div class="flex items-center justify-between text-xs font-mono">
               <span class="text-yellow-400 font-bold">商业闭环</span>
@@ -479,15 +458,15 @@
             </p>
             
             <div class="grid grid-cols-3 gap-2">
-              <div class="rounded-lg overflow-hidden border border-[#1b253b] cursor-pointer bg-black" onclick="openLightbox('assets/wrist_ledger_1.png', '【闪电记账本】手环主界面：今日安全预算、快捷记账与账户卡片')">
+              <div class="rounded-lg overflow-hidden border border-[#182236] cursor-pointer bg-black" onclick="openLightbox('assets/wrist_ledger_1.png', '【闪电记账本】手环主界面：今日安全预算、快捷记账与账户卡片')">
                 <img src="assets/wrist_ledger_1.png" alt="闪电记账本主界面" class="w-full h-24 object-contain hover:scale-105 transition-transform">
                 <div class="p-1 bg-[#05070c] text-[10px] text-center text-slate-300 font-mono">记账主界面</div>
               </div>
-              <div class="rounded-lg overflow-hidden border border-[#1b253b] cursor-pointer bg-black" onclick="openLightbox('assets/wrist_pro_1.png', '【闪电记账本 Pro】走势大盘：大屏月度支出预测、分类排行与日均分析')">
+              <div class="rounded-lg overflow-hidden border border-[#182236] cursor-pointer bg-black" onclick="openLightbox('assets/wrist_pro_1.png', '【闪电记账本 Pro】走势大盘：大屏月度支出预测、分类排行与日均分析')">
                 <img src="assets/wrist_pro_1.png" alt="闪电记账本Pro大盘" class="w-full h-24 object-contain hover:scale-105 transition-transform">
                 <div class="p-1 bg-[#05070c] text-[10px] text-center text-slate-300 font-mono">Pro大盘走势</div>
               </div>
-              <div class="rounded-lg overflow-hidden border border-[#1b253b] cursor-pointer bg-black" onclick="openLightbox('assets/wrist_driver_1.png', '【环间驾考】手环端题库：艾宾浩斯记忆曲线、极速速记与错题专项')">
+              <div class="rounded-lg overflow-hidden border border-[#182236] cursor-pointer bg-black" onclick="openLightbox('assets/wrist_driver_1.png', '【环间驾考】手环端题库：艾宾浩斯记忆曲线、极速速记与错题专项')">
                 <img src="assets/wrist_driver_1.png" alt="环间驾考手环应用" class="w-full h-24 object-contain hover:scale-105 transition-transform">
                 <div class="p-1 bg-[#05070c] text-[10px] text-center text-slate-300 font-mono">环间驾考</div>
               </div>
@@ -497,7 +476,7 @@
               主打产品《闪电记账本》与《环间驾考》，自研 Python 自动发货 Daemon，累计营收 1000+ 元且每日持续进账。
             </p>
           </div>
-          <div class="pt-4 border-t border-[#1b253b] flex items-center justify-between">
+          <div class="pt-4 border-t border-[#182236] flex items-center justify-between">
             <span class="text-xs font-mono text-yellow-400 font-bold">用户付费验证</span>
             <span class="text-[11px] font-mono text-slate-400">点击小图放大</span>
           </div>
@@ -515,19 +494,19 @@
         <p class="text-sm text-slate-400 font-mono">DRC 规则全过，BOM 采购送达，计划明日在 1123 实验室首件贴片</p>
       </div>
 
-      <div class="rounded-xl border border-[#1b253b] bg-[#0c1222] p-7 lg:p-9 space-y-6">
+      <div class="rounded-xl border border-[#182236] bg-[#0a101d] p-7 lg:p-9 space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           
           <div class="space-y-3">
             <div class="grid grid-cols-2 gap-3">
-              <div class="rounded-xl overflow-hidden border border-[#1b253b] cursor-pointer bg-[#05070c]" onclick="openLightbox('assets/fc_pcb_layout.png', '飞控项目 4 层 PCB 布线层 (DRC 0 Error, 5V 25mil, LDO 大面积铺铜)')">
+              <div class="rounded-xl overflow-hidden border border-[#182236] cursor-pointer bg-[#05070c]" onclick="openLightbox('assets/fc_pcb_layout.png', '飞控项目 4 层 PCB 布线层 (DRC 0 Error, 5V 25mil, LDO 大面积铺铜)')">
                 <img src="assets/fc_pcb_layout.png" alt="飞控 PCB Layout" class="w-full h-48 object-cover object-center hover:scale-105 transition-transform duration-300">
                 <div class="p-2 bg-[#05070c] text-xs text-slate-300 font-mono flex justify-between">
                   <span>PCB 4层走线图</span>
                   <span class="text-orange-400">🔍 点击放大</span>
                 </div>
               </div>
-              <div class="rounded-xl overflow-hidden border border-[#1b253b] cursor-pointer bg-[#05070c]" onclick="openLightbox('assets/fc_schematic.png', '飞控电路原理图 (MCU最小系统、IMU滤波、电源稳压与接口定义)')">
+              <div class="rounded-xl overflow-hidden border border-[#182236] cursor-pointer bg-[#05070c]" onclick="openLightbox('assets/fc_schematic.png', '飞控电路原理图 (MCU最小系统、IMU滤波、电源稳压与接口定义)')">
                 <img src="assets/fc_schematic.png" alt="飞控原理图" class="w-full h-48 object-cover object-center hover:scale-105 transition-transform duration-300">
                 <div class="p-2 bg-[#05070c] text-xs text-slate-300 font-mono flex justify-between">
                   <span>原理图设计</span>
@@ -535,7 +514,7 @@
                 </div>
               </div>
             </div>
-            <div class="p-3 bg-[#05070c] rounded-lg border border-[#1b253b] text-xs text-slate-300 font-mono">
+            <div class="p-3 bg-[#05070c] rounded-lg border border-[#182236] text-xs text-slate-300 font-mono">
               工程文件：<span class="text-white">ProPrj_飞控_2026-09-29.epro2</span> · 尺寸在 50×40mm 内，通过嘉立创生产检测。
             </div>
           </div>
@@ -578,7 +557,7 @@
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
         
-        <div class="p-6 rounded-xl bg-[#0c1222] border border-emerald-900/40 space-y-3.5">
+        <div class="p-6 rounded-xl bg-[#0a101d] border border-emerald-900/40 space-y-3.5">
           <div class="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
             独立掌握
@@ -590,7 +569,7 @@
           </ul>
         </div>
 
-        <div class="p-6 rounded-xl bg-[#0c1222] border border-orange-900/40 space-y-3.5">
+        <div class="p-6 rounded-xl bg-[#0a101d] border border-orange-900/40 space-y-3.5">
           <div class="flex items-center gap-2 text-orange-400 font-mono text-xs font-bold">
             <span class="w-2 h-2 rounded-full bg-orange-400"></span>
             吸收与复现
@@ -602,7 +581,7 @@
           </ul>
         </div>
 
-        <div class="p-6 rounded-xl bg-[#0c1222] border border-yellow-900/40 space-y-3.5">
+        <div class="p-6 rounded-xl bg-[#0a101d] border border-yellow-900/40 space-y-3.5">
           <div class="flex items-center gap-2 text-yellow-400 font-mono text-xs font-bold">
             <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
             攻坚深水区
@@ -614,7 +593,7 @@
           </ul>
         </div>
 
-        <div class="p-6 rounded-xl bg-[#0c1222] border border-purple-900/40 space-y-3.5">
+        <div class="p-6 rounded-xl bg-[#0a101d] border border-purple-900/40 space-y-3.5">
           <div class="flex items-center gap-2 text-purple-400 font-mono text-xs font-bold">
             <span class="w-2 h-2 rounded-full bg-purple-400"></span>
             实验室突破目标
@@ -631,7 +610,7 @@
 
     <!-- 控制台按钮入口 -->
     <div class="flex justify-center pt-2">
-      <button onclick="toggleTerminal()" class="px-6 py-3 rounded-xl bg-[#0c1222] hover:bg-[#11192e] text-slate-200 border border-[#1b253b] hover:border-orange-500/50 transition-colors flex items-center gap-2.5 text-xs sm:text-sm font-mono">
+      <button onclick="toggleTerminal()" class="px-6 py-3 rounded-xl bg-[#0a101d] hover:bg-[#11192e] text-slate-200 border border-[#182236] hover:border-orange-500/50 transition-colors flex items-center gap-2.5 text-xs sm:text-sm font-mono">
         <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         <span>呼出控制台 · 查看本地 Git 真实提交哈希存证</span>
       </button>
@@ -670,7 +649,7 @@
   </main>
 
   <!-- ==================== FOOTER ==================== -->
-  <footer class="border-t border-[#1b253b] bg-[#05070c] py-10 mt-16 z-20 relative">
+  <footer class="border-t border-[#182236] bg-[#05070c] py-10 mt-16 z-20 relative">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
       <div>
         <span>徐凯睿 · 郑州大学自动化 2026级</span>
@@ -737,13 +716,7 @@
           ease: "none"
         }, 0);
 
-        // 4. 滚动提示淡出
-        tl.to("#scroll-hint", {
-          opacity: 0,
-          duration: 0.2
-        }, 0);
-
-        // 5. 右侧全屏展开态从下方微移淡入，充满视口
+        // 4. 右侧全屏展开态从下方微移淡入，充满视口
         tl.fromTo("#panel-full", {
           opacity: 0,
           y: 35
