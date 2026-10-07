@@ -4,27 +4,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>徐凯睿 · 双足实验室招新第一轮考核 | 自动化 2026</title>
+  
   <!-- Tailwind CSS Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP 3 & ScrollTrigger for physics damped scroll expansion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <script>
     tailwind.config = {
       darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            mistral: {
-              orange: '#ff7000',
-              amber: '#f97316',
-              dark: '#080c14',
-              surface: '#0f172a',
-              card: '#10192d',
-              border: '#1e293b',
-              subtle: '#334155',
+            ember: {
+              400: '#fb923c',
+              500: '#ff7000',
+              600: '#ea580c',
+              950: '#431407',
             },
-            accent: {
-              cyan: '#06b6d4',
-              emerald: '#10b981',
-              yellow: '#eab308',
+            noir: {
+              bg: '#080c14',
+              surface: '#0d1527',
+              card: '#101a2f',
+              border: '#1e293b',
+              muted: '#94a3b8',
             }
           },
           fontFamily: {
@@ -35,8 +39,9 @@
       }
     }
   </script>
+
   <style>
-    /* Custom refined scrollbar & subtle technical grid */
+    /* Custom refined scrollbar & subtle grid */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #080c14; }
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
@@ -45,107 +50,68 @@
     .bg-grid-tech {
       background-size: 32px 32px;
       background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.024) 1px, transparent 1px);
     }
 
-    /* Hero Pinned Expand Track (Mistral Style) */
-    .hero-track {
-      position: relative;
-    }
-    @media (min-width: 1024px) {
-      .hero-track {
-        height: 240vh;
-      }
-      .hero-sticky {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        width: 100vw;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-
-    #hero-left-col {
-      will-change: opacity, transform;
-      transition: opacity 0.05s linear, transform 0.05s linear;
-    }
-
-    #expanding-block {
-      will-change: transform, width, height, border-radius;
-      transition: border-radius 0.05s linear, border-color 0.15s ease;
-    }
-
-    /* Lightbox modal */
+    /* Lightbox active */
     #lightbox.active {
       display: flex;
     }
   </style>
 </head>
-<body class="bg-[#080c14] text-slate-100 font-sans selection:bg-[#ff7000] selection:text-black min-h-[100dvh] flex flex-col antialiased bg-grid-tech">
+<body class="bg-[#080c14] text-slate-100 font-sans selection:bg-[#ff7000] selection:text-black min-h-[100dvh] antialiased bg-grid-tech overflow-x-hidden">
 
-  <!-- ==================== TOP NAVIGATION BAR ==================== -->
-  <header class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-md bg-[#080c14]/90 border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-      
-      <!-- Logo / Identity -->
-      <a href="#hero-top" class="flex items-center space-x-3 group">
-        <div class="w-8 h-8 rounded-lg bg-orange-950/80 border border-orange-500/50 flex items-center justify-center text-orange-400 font-mono font-bold text-xs group-hover:border-orange-400 transition-colors shadow-sm shadow-orange-500/20">
-          KR
-        </div>
-        <div class="flex flex-col">
-          <div class="flex items-center gap-2">
-            <span class="text-sm font-semibold tracking-tight text-white group-hover:text-orange-400 transition-colors">徐凯睿 · Kairui Xu</span>
-            <span class="hidden sm:inline px-1.5 py-0.2 rounded text-[10px] font-mono bg-orange-950/60 text-orange-300 border border-orange-800/50">LilyCarry</span>
-          </div>
-          <span class="text-[11px] text-slate-400 font-mono">郑州大学自动化 2026级 · 双足实验室招新第一轮</span>
-        </div>
-      </a>
-
-      <!-- Quick Nav (Desktop) -->
-      <nav class="hidden md:flex items-center space-x-6 text-xs font-mono text-slate-300">
-        <a href="#section-direction" class="hover:text-orange-400 transition-colors flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span> 01 意向: 工业测量 &amp; 3D
-        </a>
-        <a href="#section-journey" class="hover:text-orange-400 transition-colors">02 真实自驱</a>
-        <a href="#section-deliveries" class="hover:text-orange-400 transition-colors">03 交付闭环</a>
-        <a href="#section-fc" class="hover:text-orange-400 transition-colors">04 飞控实焊</a>
-        <a href="#section-matrix" class="hover:text-orange-400 transition-colors">05 客观边界</a>
-      </nav>
-
-      <!-- Action Contacts -->
-      <div class="flex items-center space-x-2.5">
-        <a href="https://github.com/LilyCarry" target="_blank" rel="noopener noreferrer" 
-           class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg bg-slate-900 border border-slate-700/80 hover:border-orange-500/60 text-slate-200 hover:text-white transition-all">
-          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span class="hidden sm:inline">GitHub</span>
-        </a>
-        <a href="mailto:xu762556@outlook.com" 
-           class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg bg-orange-950/70 border border-orange-500/50 hover:bg-orange-900/60 text-orange-300 transition-all shadow-sm">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          <span class="hidden sm:inline">邮箱</span>
-        </a>
-      </div>
+  <!-- ==================== HERO SECTION (借鉴 李贺.是.gay 75/25 分屏 + MISTRAL 暖橙渐变与全屏拓展) ==================== -->
+  <section id="hero" class="relative overflow-hidden lg:h-dvh flex flex-col justify-between">
+    
+    <!-- 背景渐变装饰（Mistral 风格暖橙光晕） -->
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-orange-950/20 to-transparent"></div>
+      <div class="absolute -right-32 top-16 h-96 w-96 rounded-full bg-orange-500/10 blur-3xl"></div>
+      <div class="absolute -left-24 bottom-24 h-72 w-72 rounded-full bg-amber-500/10 blur-3xl"></div>
     </div>
-  </header>
 
-  <div id="hero-top" class="h-16"></div>
-
-  <!-- ==================== MISTRAL PINNED EXPAND HERO TRACK ==================== -->
-  <div class="hero-track w-full" id="hero-track">
-    <div class="hero-sticky pt-16 lg:pt-0">
+    <!-- 主屏分栏（桌面端：左 75% 主内容区，右 25% 绝对定位；滚动时右侧向左拓展占满 100% 全屏） -->
+    <div class="relative flex flex-col lg:h-full lg:flex-row w-full">
       
-      <!-- Container: Initial 2-column layout -->
-      <div id="hero-layout" class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-12 relative">
+      <!-- ==================== 左屏 (约 75%)：上方宣言，下方三块分屏卡片 ==================== -->
+      <div id="panel-left" class="relative z-10 flex min-w-0 flex-col lg:w-3/4">
         
-        <!-- Left Side: Title & Key Narrative (Fades out as user scrolls down) -->
-        <div id="hero-left-col" class="w-full lg:w-[50%] space-y-6 z-10 pt-4 lg:pt-0">
+        <!-- 顶栏：个人标识与外链 -->
+        <header id="hero-header" class="flex items-center justify-between px-6 pt-6 lg:px-10">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-orange-950/80 border border-orange-500/50 flex items-center justify-center text-orange-400 font-mono font-bold text-xs shadow-sm shadow-orange-500/20">
+              KR
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-semibold tracking-tight text-white">徐凯睿 · Kairui Xu</span>
+                <span class="px-1.5 py-0.2 rounded text-[10px] font-mono bg-orange-950/60 text-orange-300 border border-orange-800/50">LilyCarry</span>
+              </div>
+              <span class="text-[11px] text-slate-400 font-mono">郑州大学自动化 2026级 · 双足实验室招新第一轮考核</span>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-2.5">
+            <a href="https://github.com/LilyCarry" target="_blank" rel="noopener noreferrer" 
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg bg-slate-900 border border-slate-700/80 hover:border-orange-500/60 text-slate-200 hover:text-white transition-all">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <span class="hidden sm:inline">GitHub</span>
+            </a>
+            <a href="mailto:xu762556@outlook.com" 
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg bg-orange-950/70 border border-orange-500/50 hover:bg-orange-900/60 text-orange-300 transition-all shadow-sm">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <span class="hidden sm:inline">邮箱</span>
+            </a>
+          </div>
+        </header>
+
+        <!-- 宣言区（上方） -->
+        <div class="px-6 pt-8 pb-4 lg:px-10 lg:pt-12 space-y-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono bg-orange-950/80 border border-orange-500/40 text-orange-300">
-            <span class="inline-block w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
-            双足实验室 2026 招新考核第一轮 · 专属工程主页
+            <span class="w-2 h-2 rounded-full bg-orange-400 animate-ping"></span>
+            自动化极客 · 软硬全栈与具身感知探索者
           </div>
 
           <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
@@ -155,228 +121,219 @@
             </span>
           </h1>
 
-          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
-            我是 <span class="text-white font-semibold">徐凯睿 (LilyCarry)</span>，郑州大学自动化 2026 级新生。
-            高中萌生软硬件兴趣，高三实现 ESP8266 环境连续采集；高考后集中攻克 STM32 底层外设、双芯协议协同与 4 层 PCB 打板闭环。
-            善于以 AI 作为放大镜与工程加速器，在小米 Vela 手环生态独立完成快应用开发与自动发货商业化交付；向上游水杉输入法与拾光课程表贡献核心 PR。
+          <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl font-mono">
+            高三自研 ESP8266 环境采集；高考后暑假攻克 STM32 底层控制、双芯总线协议解耦与立创 4 层 PCB 打板闭环。
+            借助 AI 摸高，在小米手环生态独立完成产品研发与自动发货变现闭环；向上游水杉输入法与拾光课程表贡献核心 PR。
             目前已完成考核飞控板布线与采购，物料明日即达，即刻前往 1123 实验室首件焊接。
           </p>
+        </div>
 
-          <!-- Core Metric Pills -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
-            <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-              <div class="text-[10px] text-slate-400 font-mono">PCB 打板闭环</div>
-              <div class="text-lg font-bold font-mono text-orange-400 mt-0.5">6+ 块板卡</div>
-              <div class="text-[9px] text-slate-500 font-mono">从训练营到4层飞控</div>
+        <!-- 下方：Mistral 风格三块分屏卡片 (Three-Split Deck) -->
+        <div class="mt-auto px-6 pb-12 lg:px-10 lg:pb-10">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+            
+            <!-- 分屏卡片 1: 硬件工程 -->
+            <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-4 transition hover:-translate-y-1 hover:border-orange-500/50 hover:shadow-lg hover:shadow-orange-500/10">
+              <div class="flex items-center justify-between text-xs font-mono mb-2">
+                <span class="text-orange-400 font-bold">01 // 硬件工程</span>
+                <span class="text-slate-500 text-[10px]">6+ 块打板</span>
+              </div>
+              <h3 class="text-sm font-bold text-white">4 层飞控板 · 首件待焊</h3>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                完成 50×40mm 4层板布线，5V 25mil 加粗，LDO 大面积铺铜；物料明日送达 1123 实验室首件贴片。
+              </p>
             </div>
-            <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-              <div class="text-[10px] text-slate-400 font-mono">开源核心 PR</div>
-              <div class="text-lg font-bold font-mono text-emerald-400 mt-0.5">2 项合并</div>
-              <div class="text-[9px] text-slate-500 font-mono">水杉输入法 &amp; 拾光课表</div>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-              <div class="text-[10px] text-slate-400 font-mono">商业化交付</div>
-              <div class="text-lg font-bold font-mono text-yellow-400 mt-0.5">1000+ 元</div>
-              <div class="text-[9px] text-slate-500 font-mono">Vela 手环自动发货</div>
-            </div>
-            <div class="p-3 rounded-xl bg-slate-950/80 border border-slate-800">
-              <div class="text-[10px] text-slate-400 font-mono">当前考核节点</div>
-              <div class="text-lg font-bold font-mono text-cyan-400 mt-0.5">首件实焊</div>
-              <div class="text-[9px] text-slate-500 font-mono">明日到货进实验室</div>
-            </div>
-          </div>
 
-          <!-- Prompt indicator -->
-          <div class="hidden lg:flex items-center gap-2 text-xs font-mono text-slate-400 pt-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-orange-400 animate-bounce"></span>
-            <span>向下滑动：右侧核心方块将平滑放大接管全屏</span>
+            <!-- 分屏卡片 2: 开源交付 -->
+            <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-4 transition hover:-translate-y-1 hover:border-emerald-500/50 hover:shadow-lg hover:shadow-emerald-500/10">
+              <div class="flex items-center justify-between text-xs font-mono mb-2">
+                <span class="text-emerald-400 font-bold">02 // 开源交付</span>
+                <span class="text-slate-500 text-[10px]">2 项 PR 合并</span>
+              </div>
+              <h3 class="text-sm font-bold text-white">水杉输入法 &amp; 拾光课表</h3>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                水杉输入法 C++ 滚轮翻页 (Fixes #81) + 拾光课程表郑州大学教务 4 步协议链逆向适配。
+              </p>
+            </div>
+
+            <!-- 分屏卡片 3: 商业闭环 -->
+            <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-4 transition hover:-translate-y-1 hover:border-yellow-500/50 hover:shadow-lg hover:shadow-yellow-500/10">
+              <div class="flex items-center justify-between text-xs font-mono mb-2">
+                <span class="text-yellow-400 font-bold">03 // 商业闭环</span>
+                <span class="text-slate-500 text-[10px]">持续每日营收</span>
+              </div>
+              <h3 class="text-sm font-bold text-white">小米手环生态 · 自动发货</h3>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                借助 AI 打造《闪电记账本》与《环间驾考》，自研 Python 自动发货 Daemon，累计营收 1000+ 元。
+              </p>
+            </div>
+
           </div>
         </div>
 
-        <!-- Right Side: The Expanding Block (Mistral Signature Interaction) -->
-        <div id="expanding-wrapper" class="w-full lg:w-[50%] h-[480px] lg:h-[540px] flex items-center justify-center relative">
-          
-          <div id="expanding-block" class="w-full h-full bg-gradient-to-br from-[#10192d] to-[#080d18] border border-orange-500/70 rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-2xl overflow-hidden relative group">
-            
-            <!-- Top Badges inside block -->
-            <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
-              <div class="flex items-center gap-2">
-                <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-950 text-orange-400 border border-orange-800/80 font-bold">
-                  MANDATORY // 必选意向方向
-                </span>
-                <span class="text-[10px] font-mono text-slate-400 hidden sm:inline">EMBODIED AI ANCHOR</span>
+      </div>
+
+      <!-- ==================== 右屏 (桌面端 25% → 滚动阻尼拓展占满 100% 全屏；移动端为竖排卡片) ==================== -->
+      <aside id="panel-right" class="relative z-20 border-t border-slate-800 bg-[#080c14] lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/4 lg:border-l lg:border-t-0 flex flex-col justify-between overflow-hidden shadow-2xl">
+        
+        <!-- 窄态预览 (桌面扩展时淡出，移动端直接显示) -->
+        <div id="panel-compact" class="flex flex-col justify-between p-6 lg:h-full lg:p-8">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-orange-400 font-bold tracking-wider">MANDATORY // 必选</span>
+              <span class="text-slate-500">01</span>
+            </div>
+            <h2 class="mt-4 text-2xl font-black tracking-tight text-white">意向方向</h2>
+            <div class="mt-2 text-xl font-extrabold text-orange-400">工业测量 &amp; 3D</div>
+            <p class="mt-4 text-xs text-slate-300 leading-relaxed font-mono">
+              押宝未来的具身智能空间锚点。<br>
+              大模型缺乏物理世界的几何公差感知，工业测量与 3D 点云是唯一的精确度量衡。
+            </p>
+          </div>
+
+          <div class="space-y-4 pt-6 border-t border-slate-800/80">
+            <div class="space-y-1.5 font-mono text-xs text-slate-400">
+              <div class="flex justify-between">
+                <span>硬件基座：</span>
+                <span class="text-white">PCB 信号采集</span>
               </div>
-              <span class="text-xs font-mono text-orange-400 font-bold">SECTION 01</span>
+              <div class="flex justify-between">
+                <span>三维认知：</span>
+                <span class="text-white">SolidWorks 机构</span>
+              </div>
+              <div class="flex justify-between">
+                <span>突破目标：</span>
+                <span class="text-orange-400">点云配准 &amp; 手眼标定</span>
+              </div>
             </div>
 
-            <!-- Central Content of the Card -->
-            <div class="space-y-4 my-auto py-2">
-              <div class="text-xs font-mono text-orange-400 tracking-wider">押宝未来 · 具身智能的物理空间锚点</div>
-              <h2 class="text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+            <p class="text-[11px] font-mono text-orange-400/90 animate-pulse">
+              向下滚动，右侧拓展占满全屏 &rarr;
+            </p>
+          </div>
+        </div>
+
+        <!-- 全屏展开态 (初始透明，滚动拓展时淡入并展示完整论述) -->
+        <div id="panel-full" class="opacity-0 absolute inset-0 p-6 sm:p-12 lg:p-16 bg-[#080c14] flex flex-col justify-between overflow-y-auto pointer-events-none">
+          <div class="max-w-5xl mx-auto w-full space-y-6">
+            
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded text-xs font-mono bg-orange-950 text-orange-400 border border-orange-800/80 font-bold">
+                  MANDATORY // 实验室必选方向深度论述
+                </span>
+                <span class="text-xs font-mono text-slate-400 hidden sm:inline">EMBODIED AI ANCHOR</span>
+              </div>
+              <span class="text-xs font-mono text-slate-500">SECTION 01 FULL DECK</span>
+            </div>
+
+            <div class="space-y-2">
+              <h2 class="text-3xl sm:text-5xl font-black text-white leading-tight">
                 工业测量 &amp; 3D：<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
-                  物理世界不可替代的高精度度量衡
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-400">
+                  具身机器人干预物理世界的绝对度量衡
                 </span>
               </h2>
-              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-                大语言模型赋予了机器人高层推理能力，但大模型无法仅凭平面图片感知物体相差 0.05mm 的装配公差，也无法直接得出 6D 空间位姿（位置与法向角度）。
-                工业测量与 3D 点云配准不是冷冰冰的质检打表，而是具身智能走向物理世界的眼睛与精确标尺。
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-mono max-w-3xl">
+                多模态大语言模型解决了任务推理与语义理解，但它无法凭单目平面图像感知轴孔 0.05mm 的几何公差，也无法直接得出高保真 6D 空间位姿矩阵。
+                没有工业级 3D 测量与点云配准作为空间锚点，机械臂与机器人就只能停留在粗糙的“盲动”。
               </p>
+            </div>
 
-              <!-- Three Core Pillars -->
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800/80">
-                  <div class="text-[11px] font-bold text-orange-400 font-mono">01. 物理度量衡</div>
-                  <div class="text-[11px] text-slate-400 mt-1">跨越虚拟模型与物理几何公差的鸿沟</div>
+            <!-- 3-Pillar Architecture Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+                <div class="text-xs font-bold font-mono text-orange-400 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-orange-400"></span> 01. 认知的跃迁
                 </div>
-                <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800/80">
-                  <div class="text-[11px] font-bold text-emerald-400 font-mono">02. 软硬件支点</div>
-                  <div class="text-[11px] text-slate-400 mt-1">PCB 采集板滤波 + SolidWorks 机械手感</div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  跳出传统质检打表的狭隘定义，将其视为具身智能从虚拟走向物理现实的度量基石。通过 3D 点云处理与空间几何重建，将物理世界数字化。
+                </p>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+                <div class="text-xs font-bold font-mono text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 02. 下层工程支点
                 </div>
-                <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800/80">
-                  <div class="text-[11px] font-bold text-cyan-400 font-mono">03. 实验室突破</div>
-                  <div class="text-[11px] text-slate-400 mt-1">点云配准、6D位姿识别与手眼标定闭环</div>
+                <ul class="text-xs text-slate-300 space-y-1 font-mono leading-relaxed">
+                  <li>• <strong>硬件层：</strong>懂 PCB 原理图走线、低噪声电源滤波与传感器通信总线。</li>
+                  <li>• <strong>空间层：</strong>掌握 SolidWorks 机械装配仿真，具备几何公差直觉。</li>
+                </ul>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+                <div class="text-xs font-bold font-mono text-cyan-400 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span> 03. 实验室突破目标
                 </div>
+                <ul class="text-xs text-slate-300 space-y-1 font-mono leading-relaxed">
+                  <li>• <strong>点云配准：</strong>深入学习 PCL / ICP 算法与 6D 位姿识别。</li>
+                  <li>• <strong>手眼标定：</strong>攻克机器人手眼协同闭环，实现亚毫米纠偏。</li>
+                </ul>
               </div>
             </div>
 
-            <!-- Bottom Readout inside expanding card -->
-            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span>具身闭环系统模型</span>
+            <!-- VLA System Flow Banner -->
+            <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
+              <div class="flex items-center gap-3">
+                <span class="px-2 py-1 rounded bg-orange-950 text-orange-400 font-bold border border-orange-800/60">VLA 闭环</span>
+                <span class="text-slate-300">3D 点云感知 -&gt; 空间 6D 位姿矩阵 -&gt; 策略运动规划 -&gt; 精密伺服执行</span>
               </div>
-              <span class="text-orange-400 font-semibold">继续向下滑动展开完整汇报 &darr;</span>
+              <span class="text-orange-400 font-semibold">继续向下滑动：查看真实自驱工程凭证 &darr;</span>
             </div>
 
           </div>
-
         </div>
 
-      </div>
+      </aside>
 
     </div>
-  </div>
 
-  <!-- ==================== DETAILED CONTENT SECTIONS ==================== -->
-  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-20 z-20">
+    <!-- Mistral 风格日落渐变色带（底部贯穿整屏，源自 李贺.是.gay） -->
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-3">
+      <div class="h-1/3 w-full" style="background: linear-gradient(90deg, #ffe9b8, #ffd18a, #ffc08a)"></div>
+      <div class="h-1/3 w-full" style="background: linear-gradient(90deg, #ffd800, #ff9e2e, #fa520f)"></div>
+      <div class="h-1/3 w-full" style="background: linear-gradient(90deg, #fa520f, #e10500, #a8268f)"></div>
+    </div>
 
-    <!-- ==================== SECTION 01: LAB DIRECTION DEEP DIVE ==================== -->
-    <section id="section-direction" class="space-y-6 pt-6">
-      <div class="border-l-4 border-orange-500 pl-4 space-y-1">
-        <div class="text-xs font-mono text-orange-400 tracking-wider">SECTION 01 / 实验室必选方向深度论述</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white">
-          为什么是工业测量与 3D？筑牢具身机器人的物理底座
-        </h2>
-      </div>
+    <!-- 滚动指示器 -->
+    <div id="scroll-hint" class="absolute bottom-5 left-1/2 z-30 -translate-x-1/2 font-mono text-xs text-slate-500 hidden lg:block">
+      <span>向下滚动 · 体验阻尼展开</span>
+    </div>
 
-      <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 sm:p-8 space-y-6">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
-          <div class="space-y-3 bg-slate-950/70 p-5 rounded-xl border border-slate-800">
-            <div class="flex items-center gap-2 text-orange-400 font-mono text-sm font-semibold">
-              <span class="w-6 h-6 rounded-md bg-orange-950 border border-orange-500/40 flex items-center justify-center text-xs">A</span>
-              认知的跃迁
-            </div>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              很多人认为工业测量只是流水线末端的被动抽检；但在具身智能架构中，它是<strong>主动环境交互与闭环控制的前提</strong>。
-            </p>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              机器人进入非结构化物理环境，必须依靠线激光、结构光或深度相机完成高保真空间点云重建，提取亚毫米级几何特征。缺少这一环，高层决策只能是纸上谈兵。
-            </p>
-          </div>
+  </section>
 
-          <div class="space-y-3 bg-slate-950/70 p-5 rounded-xl border border-slate-800">
-            <div class="flex items-center gap-2 text-emerald-400 font-mono text-sm font-semibold">
-              <span class="w-6 h-6 rounded-md bg-emerald-950 border border-emerald-500/40 flex items-center justify-center text-xs">B</span>
-              我的自下而上工程积累
-            </div>
-            <ul class="text-xs text-slate-300 space-y-2 leading-relaxed font-mono">
-              <li class="flex items-start gap-1.5">
-                <span class="text-orange-400">•</span>
-                <span><strong>信号采集层：</strong>熟练掌握 PCB 原理图与走线规范，深知传感器微弱信号采集的噪声抑制与供电滤波。</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-orange-400">•</span>
-                <span><strong>三维结构层：</strong>掌握 SolidWorks 机构零部件建模与装配干涉校验，对物理机械公差有直观手感。</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-orange-400">•</span>
-                <span><strong>决策环境层：</strong>跑过数万场多智能体天梯对战，深刻体会到高层策略极度依赖底层输入确定性的铁律。</span>
-              </li>
-            </ul>
-          </div>
+  <!-- ==================== SUBSEQUENT DETAILED SECTIONS (李贺.是.gay 类别标签流) ==================== -->
+  <main class="max-w-7xl mx-auto px-6 lg:px-10 py-16 w-full space-y-20 z-20">
 
-          <div class="space-y-3 bg-slate-950/70 p-5 rounded-xl border border-slate-800">
-            <div class="flex items-center gap-2 text-yellow-400 font-mono text-sm font-semibold">
-              <span class="w-6 h-6 rounded-md bg-yellow-950 border border-yellow-500/40 flex items-center justify-center text-xs">C</span>
-              进入实验室想攻坚的课题
-            </div>
-            <ul class="text-xs text-slate-300 space-y-2 leading-relaxed font-mono">
-              <li class="flex items-start gap-1.5">
-                <span class="text-yellow-400">1.</span>
-                <span><strong>3D 点云配准与位姿估计：</strong>系统攻坚 PCL 与深度图处理，掌握点云滤波、ICP 算法与工件 6D Pose 识别。</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-yellow-400">2.</span>
-                <span><strong>手眼标定与闭环纠偏：</strong>攻坚机器人手眼协同矩阵（Eye-in-Hand / Eye-to-Hand），实现亚毫米级的位姿误差动态补偿。</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-yellow-400">3.</span>
-                <span><strong>工程化试验台落地：</strong>协助学长搭建精密测量实机台架，把算法部署在物理硬件上接受真机严苛检验。</span>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-
-        <!-- Banner Diagram -->
-        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-orange-950/80 border border-orange-500/50 flex items-center justify-center text-orange-400 font-mono font-bold text-sm">
-              3D
-            </div>
-            <div>
-              <div class="text-xs font-semibold text-white">具身智能系统闭环模型：从物理度量到物理动作</div>
-              <div class="text-[11px] text-slate-400 font-mono">3D 点云感知 -&gt; 空间 6D 位姿矩阵 -&gt; VLA 策略规划 -&gt; 底层精密驱动伺服</div>
-            </div>
-          </div>
-          <div class="text-xs font-mono text-orange-400 px-3 py-1 rounded bg-orange-950/60 border border-orange-800/80">
-            非空谈大模型 · 重在物理世界精确落地
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== SECTION 02: REAL JOURNEY ==================== -->
+    <!-- ==================== SECTION 02: 真实自驱 · 软硬件与机构探索 ==================== -->
     <section id="section-journey" class="space-y-6">
-      <div class="border-l-4 border-orange-500 pl-4 space-y-1">
-        <div class="text-xs font-mono text-orange-400 tracking-wider">SECTION 02 / 展示真实的你</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white">
-          自驱探索史：从高三物理感知到双芯协同中枢与机构装配
+      <div>
+        <h2 class="mb-4 border-l-4 border-orange-500 pl-3 text-xl sm:text-2xl font-bold text-white">
+          02 真实自驱 · 软硬件与三维机构探索
         </h2>
+        <p class="text-xs text-slate-400 font-mono">从高三环境采集到暑假双芯协同攻坚，再到机构装配仿真</p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
         <!-- Card 1: SmartHome Dual Core -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 flex flex-col justify-between hover:border-slate-700 transition-all shadow-xl space-y-4">
+        <div class="group rounded-xl border border-slate-800 bg-slate-900/70 p-5 transition hover:-translate-y-1 hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/10 flex flex-col justify-between space-y-4">
           <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-orange-950 text-orange-300 border border-orange-800/60">暑假攻坚 · 嵌入式中枢</span>
-              <span class="text-[11px] text-slate-500 font-mono">2026.07 - 2026.08</span>
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-orange-400 font-bold">嵌入式中枢</span>
+              <span class="text-slate-500">2026.07 - 2026.08</span>
             </div>
-            <h3 class="text-lg font-bold text-white">SmartHome DualCore 双芯控制中枢</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              针对单片机运行复杂网络协议栈易导致 UI 掉帧和总线锁死的痛点，自主架构了 <span class="text-orange-300 font-mono">ESP8266 + STM32F103C8T6</span> 双核硬件解耦系统：
+            <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">SmartHome DualCore 双芯控制中枢</h3>
+            <p class="text-xs text-slate-300 leading-relaxed font-mono">
+              为解决单片机跑网络协议栈易导致 UI 掉帧和死锁的痛点，设计了 <span class="text-orange-300 font-mono">ESP8266 + STM32F103C8T6</span> 双核硬件解耦系统：
             </p>
             <ul class="text-xs text-slate-400 space-y-1.5 font-mono">
-              <li>• <strong>ESP8266 协处理器：</strong>网络协议栈、和风天气 Gzip 硬件级解压 (Puff算法) 与华为云 IoTDA 影子同步。</li>
-              <li>• <strong>STM32F103 主控：</strong>专职零阻塞 DMA 刷屏 OLED、MPU6050 姿态传感器采集与低功耗管理。</li>
-              <li>• <strong>通信可靠性：</strong>自研 UART DMA + 1024B 环形缓冲区协议，彻底修复 I2C 9-pulse 总线锁死。</li>
+              <li>• <strong>ESP8266：</strong>负责网络协议栈、和风天气 Gzip 硬件级解压与华为云 IoTDA 影子同步。</li>
+              <li>• <strong>STM32F103：</strong>专职零阻塞 DMA 刷屏 OLED、MPU6050 姿态传感器采集与低功耗休眠。</li>
+              <li>• <strong>总线排错：</strong>自研 UART DMA + 1024B 环形缓冲区协议，修复 I2C 9脉冲总线锁死。</li>
             </ul>
           </div>
-          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
             <a href="https://github.com/LilyCarry/SmartHome_DualCore" target="_blank" class="text-xs font-mono text-orange-400 hover:text-orange-300 flex items-center gap-1">
               查看 GitHub 仓库 &rarr;
             </a>
@@ -385,28 +342,28 @@
         </div>
 
         <!-- Card 2: High School Temperature -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 flex flex-col justify-between hover:border-slate-700 transition-all shadow-xl space-y-4">
+        <div class="group rounded-xl border border-slate-800 bg-slate-900/70 p-5 transition hover:-translate-y-1 hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/10 flex flex-col justify-between space-y-4">
           <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-800/60">高三萌芽 · 传感器数据流</span>
-              <span class="text-[11px] text-slate-500 font-mono">高三自主探索</span>
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-emerald-400 font-bold">高三萌芽</span>
+              <span class="text-slate-500">物理数据流</span>
             </div>
-            <h3 class="text-lg font-bold text-white">ESP8266 环境温度监测与同步</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">ESP8266 环境温度监测与同步</h3>
+            <p class="text-xs text-slate-300 leading-relaxed font-mono">
               高三时期因对真实环境感知的好奇，利用 ESP8266 搭建连续温湿度采集节点。
             </p>
-            <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer group" onclick="openLightbox('assets/esp8266_tem_chart.png', '高三时期制作的 ESP8266 长期温湿度监控数据图表与 Python 同步链路')">
+            <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer" onclick="openLightbox('assets/esp8266_tem_chart.png', '高三时期制作的 ESP8266 长期温湿度监控数据图表与 Python 同步链路')">
               <img src="assets/esp8266_tem_chart.png" alt="ESP8266 监测图表" class="w-full h-32 object-cover object-center group-hover:scale-105 transition-transform duration-300">
               <div class="p-2 bg-slate-950 text-[10px] text-slate-400 font-mono flex justify-between">
                 <span>真实历史采集折线图</span>
                 <span class="text-orange-400">🔍 点击放大</span>
               </div>
             </div>
-            <p class="text-xs text-slate-400 leading-relaxed">
+            <p class="text-xs text-slate-400 leading-relaxed font-mono">
               编写 Python 上位机脚本长期收集温湿度并生成连续折线图，验证了传感器在长期运行下的稳定性。
             </p>
           </div>
-          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
             <a href="https://github.com/LilyCarry/ESP8266_TEM" target="_blank" class="text-xs font-mono text-orange-400 hover:text-orange-300 flex items-center gap-1">
               查看 GitHub 仓库 &rarr;
             </a>
@@ -415,22 +372,22 @@
         </div>
 
         <!-- Card 3: SolidWorks CAD Assemblies (AUTHENTIC FRAMES) -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 flex flex-col justify-between hover:border-slate-700 transition-all shadow-xl space-y-4">
+        <div class="group rounded-xl border border-slate-800 bg-slate-900/70 p-5 transition hover:-translate-y-1 hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/10 flex flex-col justify-between space-y-4">
           <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-950 text-purple-300 border border-purple-800/60">机械空间 · 机构装配</span>
-              <span class="text-[11px] text-slate-500 font-mono">SolidWorks CAD</span>
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-purple-400 font-bold">三维空间</span>
+              <span class="text-slate-500">SolidWorks CAD</span>
             </div>
-            <h3 class="text-lg font-bold text-white">三维机构建模与装配仿真</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">三维机构建模与装配仿真</h3>
+            <p class="text-xs text-slate-300 leading-relaxed font-mono">
               掌握三维机械 CAD，独立完成复杂机构装配体建模、运动学配合与运动仿真（实机动画帧截取）：
             </p>
             <div class="grid grid-cols-2 gap-2">
-              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer group bg-slate-950" onclick="openLightbox('assets/cad_assembly_demo1.png', 'SolidWorks 项目一：转盘导轨滑块连杆机构三维装配体与运动仿真')">
+              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer bg-slate-950" onclick="openLightbox('assets/cad_assembly_demo1.png', 'SolidWorks 项目一：转盘导轨滑块连杆机构三维装配体与运动仿真')">
                 <img src="assets/cad_assembly_demo1.png" alt="导轨机构装配" class="w-full h-24 object-contain bg-white group-hover:scale-105 transition-transform">
                 <div class="p-1 bg-slate-950 text-[10px] text-center text-slate-400 font-mono">导轨滑块机构装配</div>
               </div>
-              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer group bg-slate-950" onclick="openLightbox('assets/cad_assembly_demo2.png', 'SolidWorks 项目二：十字轴转盘连杆活塞机构三维装配体与运动仿真')">
+              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer bg-slate-950" onclick="openLightbox('assets/cad_assembly_demo2.png', 'SolidWorks 项目二：十字轴转盘连杆活塞机构三维装配体与运动仿真')">
                 <img src="assets/cad_assembly_demo2.png" alt="活塞连杆机构装配" class="w-full h-24 object-contain bg-white group-hover:scale-105 transition-transform">
                 <div class="p-1 bg-slate-950 text-[10px] text-center text-slate-400 font-mono">十字轴活塞机构装配</div>
               </div>
@@ -439,7 +396,7 @@
               完成了 STEP 格式装配体导出与运动学干涉检测，建立对真实机械结构与制造公差的三维直觉。
             </p>
           </div>
-          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
             <span class="text-xs font-mono text-purple-300">STEP 运动学验证通过</span>
             <span class="text-[10px] font-mono text-slate-500">点击查看高保真图</span>
           </div>
@@ -448,26 +405,26 @@
       </div>
     </section>
 
-    <!-- ==================== SECTION 03: DELIVERIES & AI ==================== -->
+    <!-- ==================== SECTION 03: 交付与闭环 · 开源贡献与商业化 ==================== -->
     <section id="section-deliveries" class="space-y-6">
-      <div class="border-l-4 border-orange-500 pl-4 space-y-1">
-        <div class="text-xs font-mono text-orange-400 tracking-wider">SECTION 03 / 想法真正运行起来</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white">
-          交付与闭环：开源社区贡献与手环产品商业化
+      <div>
+        <h2 class="mb-4 border-l-4 border-orange-500 pl-3 text-xl sm:text-2xl font-bold text-white">
+          03 交付与闭环 · 开源贡献与商业生态
         </h2>
+        <p class="text-xs text-slate-400 font-mono">不仅自己写 demo，更在工业级开源项目与真实商业付费中验证可靠性</p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
         <!-- Card 1: MSIME Pull Request -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 flex flex-col justify-between hover:border-slate-700 transition-all shadow-xl space-y-4">
+        <div class="group rounded-xl border border-slate-800 bg-slate-900/70 p-5 transition hover:-translate-y-1 hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/10 flex flex-col justify-between space-y-4">
           <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-blue-950 text-blue-300 border border-blue-800/60">开源核心贡献 · C++</span>
-              <span class="text-[11px] text-slate-500 font-mono">PR Fixes #81</span>
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-blue-400 font-bold">C++ 核心贡献</span>
+              <span class="text-slate-500">Fixes #81</span>
             </div>
-            <h3 class="text-lg font-bold text-white">水杉输入法 (MSIME-Windows)</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">水杉输入法 (MSIME-Windows)</h3>
+            <p class="text-xs text-slate-300 leading-relaxed font-mono">
               向现代 Windows 平台 C++ 架构开源输入法项目贡献核心特性：
             </p>
             <ul class="text-xs text-slate-400 space-y-2 font-mono">
@@ -479,7 +436,7 @@
               </li>
             </ul>
           </div>
-          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
             <a href="https://github.com/metasequoiaime/MSIME-Windows" target="_blank" class="text-xs font-mono text-orange-400 hover:text-orange-300 flex items-center gap-1">
               查看 Upstream 仓库 &rarr;
             </a>
@@ -488,14 +445,14 @@
         </div>
 
         <!-- Card 2: Shiguang Timetable -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 flex flex-col justify-between hover:border-slate-700 transition-all shadow-xl space-y-4">
+        <div class="group rounded-xl border border-slate-800 bg-slate-900/70 p-5 transition hover:-translate-y-1 hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/10 flex flex-col justify-between space-y-4">
           <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800/60">开源官方仓库 · 协议逆向</span>
-              <span class="text-[11px] text-slate-500 font-mono">shiguang_warehouse</span>
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-cyan-400 font-bold">协议逆向</span>
+              <span class="text-slate-500">shiguang_warehouse</span>
             </div>
-            <h3 class="text-lg font-bold text-white">拾光课程表 · 郑大教务协议适配</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">拾光课程表 · 郑大教务协议适配</h3>
+            <p class="text-xs text-slate-300 leading-relaxed font-mono">
               为开源课程表独立逆向梳理郑州大学新版树维教务系统完整的 4 步网络协议链：
             </p>
             <div class="bg-slate-950/80 p-3 rounded-lg border border-slate-800 font-mono text-[11px] text-slate-400 space-y-1">
@@ -505,11 +462,11 @@
               <div>3. 周历课表 JSON 数据管道解析</div>
               <div>4. 自动容错重试机制</div>
             </div>
-            <p class="text-xs text-slate-400 leading-relaxed">
+            <p class="text-xs text-slate-400 leading-relaxed font-mono">
               适配脚本已正式合入主仓库，持续服务全校师生课表一键同步。
             </p>
           </div>
-          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
             <a href="https://github.com/XingHeYuZhuan/shiguang_warehouse" target="_blank" class="text-xs font-mono text-orange-400 hover:text-orange-300 flex items-center gap-1">
               查看官方适配库 &rarr;
             </a>
@@ -518,28 +475,28 @@
         </div>
 
         <!-- Card 3: REAL WristLedger & WristDriver (AUTHENTIC ASSETS) -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 flex flex-col justify-between hover:border-slate-700 transition-all shadow-xl space-y-4">
+        <div class="group rounded-xl border border-slate-800 bg-slate-900/70 p-5 transition hover:-translate-y-1 hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/10 flex flex-col justify-between space-y-4">
           <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-yellow-950 text-yellow-300 border border-yellow-800/60">AI 赋能 · 商业闭环</span>
-              <span class="text-[11px] text-slate-500 font-mono">真实营收 1000+ 元</span>
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-yellow-400 font-bold">商业闭环</span>
+              <span class="text-slate-500">营收 1000+ 元</span>
             </div>
-            <h3 class="text-lg font-bold text-white">小米手环生态商业化产品矩阵</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <h3 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">小米手环生态商业化产品矩阵</h3>
+            <p class="text-xs text-slate-300 leading-relaxed font-mono">
               借助 AI 摸高，独立完成小米 Vela OS 快应用与伴生 Android App 开发，跑通完整商业变现闭环：
             </p>
             
             <!-- Real Screenshots of WristLedger & Driver -->
             <div class="grid grid-cols-3 gap-1.5">
-              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer group bg-slate-950" onclick="openLightbox('assets/wrist_ledger_1.png', '【闪电记账本】手环主界面：今日安全预算、快捷记账与账户卡片')">
+              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer bg-slate-950" onclick="openLightbox('assets/wrist_ledger_1.png', '【闪电记账本】手环主界面：今日安全预算、快捷记账与账户卡片')">
                 <img src="assets/wrist_ledger_1.png" alt="闪电记账本主界面" class="w-full h-24 object-contain bg-black group-hover:scale-105 transition-transform">
                 <div class="p-0.5 bg-slate-950 text-[9px] text-center text-slate-400 font-mono">记账主界面</div>
               </div>
-              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer group bg-slate-950" onclick="openLightbox('assets/wrist_pro_1.png', '【闪电记账本 Pro】走势大盘：大屏月度支出预测、分类排行与日均分析')">
+              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer bg-slate-950" onclick="openLightbox('assets/wrist_pro_1.png', '【闪电记账本 Pro】走势大盘：大屏月度支出预测、分类排行与日均分析')">
                 <img src="assets/wrist_pro_1.png" alt="闪电记账本Pro大盘" class="w-full h-24 object-contain bg-black group-hover:scale-105 transition-transform">
                 <div class="p-0.5 bg-slate-950 text-[9px] text-center text-slate-400 font-mono">Pro大盘走势</div>
               </div>
-              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer group bg-slate-950" onclick="openLightbox('assets/wrist_driver_1.png', '【环间驾考】手环端题库：艾宾浩斯记忆曲线、极速速记与错题专项')">
+              <div class="rounded-lg overflow-hidden border border-slate-800 cursor-pointer bg-slate-950" onclick="openLightbox('assets/wrist_driver_1.png', '【环间驾考】手环端题库：艾宾浩斯记忆曲线、极速速记与错题专项')">
                 <img src="assets/wrist_driver_1.png" alt="环间驾考手环应用" class="w-full h-24 object-contain bg-black group-hover:scale-105 transition-transform">
                 <div class="p-0.5 bg-slate-950 text-[9px] text-center text-slate-400 font-mono">环间驾考</div>
               </div>
@@ -549,7 +506,7 @@
               主打产品<strong>《闪电记账本》</strong>与<strong>《环间驾考》</strong>，自研 Python 自动化发货守护进程（`afdian_server.py` + 激活码引擎），累计营收 <strong>1000+ 元</strong>且每日持续进账。
             </p>
           </div>
-          <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
             <span class="text-xs font-mono text-yellow-400">稳定交付与用户付费铁证</span>
             <span class="text-[10px] font-mono text-slate-500">点击小图放大查看</span>
           </div>
@@ -558,30 +515,29 @@
       </div>
     </section>
 
-    <!-- ==================== SECTION 04: FLIGHT CONTROLLER IN PROGRESS ==================== -->
+    <!-- ==================== SECTION 04: 飞控进行时 · 4层板布线与实装 ==================== -->
     <section id="section-fc" class="space-y-6">
-      <div class="border-l-4 border-orange-500 pl-4 space-y-1">
-        <div class="text-xs font-mono text-orange-400 tracking-wider">SECTION 04 / 实验室考核进行时</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white">
-          飞控考核板：4层板布线闭环与首件实装准备
+      <div>
+        <h2 class="mb-4 border-l-4 border-orange-500 pl-3 text-xl sm:text-2xl font-bold text-white">
+          04 考核进行时 · 飞控 4 层板布线与实装准备
         </h2>
+        <p class="text-xs text-slate-400 font-mono">DRC 规则全过，BOM 采购送达，计划明日在 1123 实验室首件贴片</p>
       </div>
 
-      <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 sm:p-8 space-y-6">
+      <div class="rounded-xl border border-slate-800 bg-slate-900/70 p-6 lg:p-8 space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           
-          <!-- Image showcase -->
           <div class="space-y-3">
             <div class="grid grid-cols-2 gap-3">
-              <div class="rounded-xl overflow-hidden border border-slate-800 cursor-pointer group bg-slate-950" onclick="openLightbox('assets/fc_pcb_layout.png', '飞控项目 4 层 PCB 布线层 (DRC 0 Error, 5V 25mil, LDO 大面积铺铜)')">
-                <img src="assets/fc_pcb_layout.png" alt="飞控 PCB Layout" class="w-full h-44 object-cover object-center group-hover:scale-105 transition-transform duration-300">
+              <div class="rounded-xl overflow-hidden border border-slate-800 cursor-pointer bg-slate-950" onclick="openLightbox('assets/fc_pcb_layout.png', '飞控项目 4 层 PCB 布线层 (DRC 0 Error, 5V 25mil, LDO 大面积铺铜)')">
+                <img src="assets/fc_pcb_layout.png" alt="飞控 PCB Layout" class="w-full h-44 object-cover object-center hover:scale-105 transition-transform duration-300">
                 <div class="p-2 bg-slate-950 text-[11px] text-slate-400 font-mono flex justify-between">
                   <span>PCB 4层走线图</span>
                   <span class="text-orange-400">🔍 点击放大</span>
                 </div>
               </div>
-              <div class="rounded-xl overflow-hidden border border-slate-800 cursor-pointer group bg-slate-950" onclick="openLightbox('assets/fc_schematic.png', '飞控电路原理图 (MCU最小系统、IMU滤波、电源稳压与接口定义)')">
-                <img src="assets/fc_schematic.png" alt="飞控原理图" class="w-full h-44 object-cover object-center group-hover:scale-105 transition-transform duration-300">
+              <div class="rounded-xl overflow-hidden border border-slate-800 cursor-pointer bg-slate-950" onclick="openLightbox('assets/fc_schematic.png', '飞控电路原理图 (MCU最小系统、IMU滤波、电源稳压与接口定义)')">
+                <img src="assets/fc_schematic.png" alt="飞控原理图" class="w-full h-44 object-cover object-center hover:scale-105 transition-transform duration-300">
                 <div class="p-2 bg-slate-950 text-[11px] text-slate-400 font-mono flex justify-between">
                   <span>原理图设计</span>
                   <span class="text-orange-400">🔍 点击放大</span>
@@ -593,7 +549,6 @@
             </div>
           </div>
 
-          <!-- Description and next step -->
           <div class="space-y-4">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded text-xs font-mono bg-orange-950 text-orange-300 border border-orange-800/50">
               最新进展：PCB 与 BOM 元器件明日统一送达
@@ -601,7 +556,7 @@
             <h3 class="text-xl font-bold text-white leading-snug">
               从原理图、DRC 规则到物料采购：极速跑通硬件闭环
             </h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <p class="text-xs text-slate-300 leading-relaxed font-mono">
               在接到学长布置的飞控板绘制任务后，迅速攻坚完成全套打板工程：
             </p>
             <ul class="text-xs text-slate-400 space-y-2 font-mono">
@@ -624,18 +579,17 @@
       </div>
     </section>
 
-    <!-- ==================== SECTION 05: OBJECTIVE CAPABILITY MATRIX ==================== -->
+    <!-- ==================== SECTION 05: 客观能力边界清单 ==================== -->
     <section id="section-matrix" class="space-y-6">
-      <div class="border-l-4 border-orange-500 pl-4 space-y-1">
-        <div class="text-xs font-mono text-orange-400 tracking-wider">SECTION 05 / 技术诚实与边界</div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-white">
-          客观能力看板与边界清单
+      <div>
+        <h2 class="mb-4 border-l-4 border-orange-500 pl-3 text-xl sm:text-2xl font-bold text-white">
+          05 客观能力边界清单
         </h2>
+        <p class="text-xs text-slate-400 font-mono">技术诚实是最好的背书：分清掌握、复现、攻坚与突破目标</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         
-        <!-- Box 1: Independent -->
         <div class="p-5 rounded-xl bg-slate-900/80 border border-emerald-900/40 space-y-3">
           <div class="flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -648,7 +602,6 @@
           </ul>
         </div>
 
-        <!-- Box 2: Digesting & Reproducing -->
         <div class="p-5 rounded-xl bg-slate-900/80 border border-orange-900/40 space-y-3">
           <div class="flex items-center gap-2 text-orange-400 font-mono text-xs font-bold">
             <span class="w-2 h-2 rounded-full bg-orange-400"></span>
@@ -661,7 +614,6 @@
           </ul>
         </div>
 
-        <!-- Box 3: In Progress Hard Core -->
         <div class="p-5 rounded-xl bg-slate-900/80 border border-yellow-900/40 space-y-3">
           <div class="flex items-center gap-2 text-yellow-400 font-mono text-xs font-bold">
             <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
@@ -674,7 +626,6 @@
           </ul>
         </div>
 
-        <!-- Box 4: Lab Breakthrough -->
         <div class="p-5 rounded-xl bg-slate-900/80 border border-purple-900/40 space-y-3">
           <div class="flex items-center gap-2 text-purple-400 font-mono text-xs font-bold">
             <span class="w-2 h-2 rounded-full bg-purple-400"></span>
@@ -689,6 +640,14 @@
 
       </div>
     </section>
+
+    <!-- ==================== 控制台抽屉入口 (加分项) ==================== -->
+    <div class="flex justify-center pt-6">
+      <button onclick="toggleTerminal()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition-colors flex items-center gap-2 text-xs font-mono">
+        <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>呼出控制台 · 查看本地 Git 真实提交哈希存证</span>
+      </button>
+    </div>
 
     <!-- ==================== INTERACTIVE TERMINAL DRAWER ==================== -->
     <div id="terminal-section" class="hidden transition-all duration-300 rounded-2xl bg-black border border-orange-500/60 p-6 shadow-2xl font-mono text-xs space-y-4">
@@ -724,7 +683,7 @@
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="border-t border-slate-800/80 bg-slate-950/80 py-8 mt-16 z-20 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
       <div>
         <span>徐凯睿 · 郑州大学自动化 2026级</span>
         <span class="mx-2">|</span>
@@ -748,78 +707,69 @@
     </div>
   </div>
 
-  <!-- ==================== JAVASCRIPT: MISTRAL EXPANDING SCROLL LOGIC ==================== -->
+  <!-- ==================== GSAP SCROLLTRIGGER INTERACTION SCRIPT (从 李贺.是.gay 复刻核心拓展阻尼) ==================== -->
   <script>
-    const heroTrack = document.getElementById('hero-track');
-    const heroLeftCol = document.getElementById('hero-left-col');
-    const expandingBlock = document.getElementById('expanding-block');
-    const expandingWrapper = document.getElementById('expanding-wrapper');
+    document.addEventListener("DOMContentLoaded", () => {
+      // Register GSAP plugins
+      gsap.registerPlugin(ScrollTrigger);
 
-    function handleScroll() {
-      if (window.innerWidth < 1024) {
-        // Reset styles for mobile/tablet linear flow
-        if (heroLeftCol) {
-          heroLeftCol.style.opacity = '1';
-          heroLeftCol.style.transform = 'none';
-        }
-        if (expandingBlock) {
-          expandingBlock.style.width = '100%';
-          expandingBlock.style.height = '100%';
-          expandingBlock.style.transform = 'none';
-          expandingBlock.style.borderRadius = '1rem';
-        }
-        return;
-      }
+      // Desktop only GSAP ScrollTrigger timeline
+      const mm = gsap.matchMedia();
 
-      const scrollY = window.scrollY;
-      const trackHeight = heroTrack.offsetHeight - window.innerHeight;
-      
-      if (trackHeight <= 0) return;
+      mm.add("(min-width: 1024px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "+=120%",
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.6,
+            anticipatePin: 1
+          }
+        });
 
-      // Progress 0.0 -> 1.0 during pinned hero
-      const p = Math.min(1, Math.max(0, scrollY / trackHeight));
+        // 1. 右侧面板从 25% 平滑拓展占满 100% 视口全屏，带有 scrub: 0.6 物理阻尼！
+        tl.to("#panel-right", {
+          width: "100%",
+          duration: 1,
+          ease: "power1.inOut"
+        }, 0);
 
-      // 1. Left column fades out and slides away smoothly
-      const fadeProgress = Math.min(1, p * 2.2);
-      heroLeftCol.style.opacity = (1 - fadeProgress).toFixed(3);
-      heroLeftCol.style.transform = `translateX(${-p * 120}px)`;
+        // 2. 左侧主面板淡出并左移
+        tl.to("#panel-left", {
+          opacity: 0,
+          x: -60,
+          duration: 0.5,
+          ease: "none"
+        }, 0);
 
-      // 2. Right card expands to fill the entire viewport
-      const targetW = window.innerWidth;
-      const targetH = window.innerHeight;
-      const initW = expandingWrapper.offsetWidth;
-      const initH = expandingWrapper.offsetHeight;
+        // 3. 右侧窄态预览卡片淡出
+        tl.to("#panel-compact", {
+          opacity: 0,
+          duration: 0.35,
+          ease: "none"
+        }, 0);
 
-      const currentW = initW + (targetW - initW) * p;
-      const currentH = initH + (targetH - initH) * p;
+        // 4. 滚动提示淡出
+        tl.to("#scroll-hint", {
+          opacity: 0,
+          duration: 0.2
+        }, 0);
 
-      // Calculate shift from right-side container to viewport center
-      const rect = expandingWrapper.getBoundingClientRect();
-      const initialCenterX = rect.left + initW / 2;
-      const initialCenterY = rect.top + initH / 2;
-      const targetCenterX = window.innerWidth / 2;
-      const targetCenterY = window.innerHeight / 2;
-
-      const shiftX = (targetCenterX - initialCenterX) * p;
-      const shiftY = (targetCenterY - initialCenterY) * p;
-
-      expandingBlock.style.width = `${currentW}px`;
-      expandingBlock.style.height = `${currentH}px`;
-      expandingBlock.style.transform = `translate(${shiftX}px, ${shiftY}px)`;
-      expandingBlock.style.borderRadius = `${(1 - p) * 16}px`;
-
-      // Border glow adjustments
-      if (p >= 0.95) {
-        expandingBlock.style.borderColor = 'rgba(255, 112, 0, 0.2)';
-      } else {
-        expandingBlock.style.borderColor = 'rgba(255, 112, 0, 0.7)';
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll);
-    // Initial call
-    handleScroll();
+        // 5. 右侧全屏展开态从下方微移淡入，充满视口
+        tl.fromTo("#panel-full", {
+          opacity: 0,
+          y: 35
+        }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.45,
+          ease: "power2.out",
+          pointerEvents: "auto"
+        }, 0.4);
+      });
+    });
 
     function toggleTerminal() {
       const el = document.getElementById('terminal-section');
