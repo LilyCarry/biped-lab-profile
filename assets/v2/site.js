@@ -93,39 +93,53 @@ new ResizeObserver(()=>{layout();}).observe(board);
 layout();updateScroll();
 })();
 
-// --- Floating Bottom Meme Easter Egg (Deeply Tucked & Extreme Bottom Trigger) ---
+
+
+// --- Mistral Footer Mascot Runway Scroll ---
 (function() {
-  const meme = document.getElementById('bottom-meme');
-  if (!meme) return;
-  let shown = false;
-  function checkMeme() {
-    const scrollBottom = window.innerHeight + window.scrollY;
-    const docHeight = document.documentElement.scrollHeight;
-    // Only trigger when user scrolls to the very bottom (within 70px of total height)
-    const isAtVeryBottom = scrollBottom >= docHeight - 70;
-    if (isAtVeryBottom) {
-      if (!shown) {
-        meme.classList.add('visible');
-        meme.setAttribute('aria-hidden', 'false');
-        shown = true;
-      }
+  const track = document.getElementById('footer-track');
+  const mascot = document.getElementById('mascot-stage');
+  const footerContent = document.querySelector('.mistral-footer-content');
+  if (!track || !mascot) return;
+
+  function updateFooterMascot() {
+    const rect = track.getBoundingClientRect();
+    const trackH = track.offsetHeight;
+    const winH = window.innerHeight;
+    const scrollable = trackH - winH;
+    if (scrollable <= 0) return;
+
+    // Scrolled distance into the track
+    const scrolledInto = -rect.top;
+    const progress = Math.min(1, Math.max(0, scrolledInto / scrollable));
+
+    // Dynamic content bar height
+    const contentH = footerContent ? footerContent.offsetHeight : 220;
+    mascot.style.bottom = `${contentH - 4}px`; // Sits right behind the top edge of footerContent
+
+    // Start emerging after scrolling 20% into the runway
+    const p = Math.min(1, Math.max(0, (progress - 0.2) / 0.75));
+    
+    // translateY: 105% (tucked behind the dark bar) -> 0% (rises in the center)
+    const translateY = (1 - p) * 105;
+    mascot.style.transform = `translateX(-50%) translateY(${translateY}%)`;
+
+    if (p > 0.85) {
+      mascot.classList.add('pinned-visible');
     } else {
-      if (shown) {
-        meme.classList.remove('visible');
-        meme.setAttribute('aria-hidden', 'true');
-        shown = false;
-      }
+      mascot.classList.remove('pinned-visible');
     }
   }
-  window.addEventListener('scroll', checkMeme, { passive: true });
-  window.addEventListener('resize', checkMeme, { passive: true });
-  checkMeme();
 
-  const img = document.getElementById('meme-click-img');
+  window.addEventListener('scroll', updateFooterMascot, { passive: true });
+  window.addEventListener('resize', updateFooterMascot, { passive: true });
+  updateFooterMascot();
+
+  const img = document.getElementById('mascot-click-img');
   if (img) {
     img.addEventListener('click', () => {
-      img.style.transform = 'scale(0.92) rotate(6deg)';
-      setTimeout(() => { img.style.transform = ''; }, 200);
+      img.style.transform = 'translateY(-14px) scale(1.06) rotate(-3deg)';
+      setTimeout(() => { img.style.transform = ''; }, 260);
     });
   }
 })();

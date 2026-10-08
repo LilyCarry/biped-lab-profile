@@ -229,3 +229,220 @@
     border-width: 3px;
   }
 }
+
+
+
+/* =========================================================================
+   MISTRAL-STYLE PERFECTED FOOTER RUNWAY & RAINBOW POP-UP MASCOT
+   ========================================================================= */
+
+.mistral-footer-track {
+  position: relative;
+  height: 140vh; /* Smooth overscroll runway */
+  background: var(--paper);
+  margin-top: 80px;
+}
+.mistral-footer-sticky {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: transparent;
+  overflow: visible;
+}
+
+/* Centered Mascot Stage - Rises directly from behind the rainbow stripe */
+.mascot-stage {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(105%);
+  z-index: 10;
+  pointer-events: none;
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+.mascot-stage.pinned-visible {
+  pointer-events: auto;
+}
+.mascot-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.mascot-img {
+  width: 250px;
+  height: 250px;
+  border-radius: 20px 20px 0 0;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.45);
+  border: 4px solid #fff;
+  border-bottom: none;
+  cursor: pointer;
+  background: #0d121f;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.mascot-img:hover {
+  transform: translateY(-8px) scale(1.03);
+}
+
+/* Dark Footer Navigation Bar */
+.mistral-footer-content {
+  position: relative;
+  z-index: 20;
+  background: #090d16;
+  border-top: none;
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* Sunset stripe (Mistral signature rainbow gradient atop the dark bar) */
+.sunset-stripe {
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(90deg, #ffe9b8 0%, #ff8a3d 25%, #fa520f 50%, #e02460 75%, #a8268f 100%);
+  display: block;
+  position: relative;
+  z-index: 25;
+}
+
+.footer-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 38px 24px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.mistral-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.footer-brand-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.footer-brand-info strong {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.footer-brand-info small {
+  color: #8892a4;
+  font-size: 12px;
+}
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.footer-nav a {
+  color: #a4b0c6;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+.footer-nav a:hover {
+  color: #ff8a3d;
+}
+.footer-back-top {
+  color: #ff6600 !important;
+  font-weight: 600 !important;
+}
+
+/* AI Acknowledgments Bar inside dark footer */
+.footer-ack-bar {
+  padding: 16px 20px;
+  background: rgba(18, 24, 38, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.footer-ack-tag {
+  color: #ff8a3d;
+  font: 700 11px var(--mono);
+  letter-spacing: 0.08em;
+}
+.footer-ack-text {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.footer-ack-text strong {
+  color: #fff;
+  font-weight: 700;
+}
+.footer-ack-sub {
+  color: #718096;
+  font-size: 11px;
+}
+
+.mistral-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  color: #64748b;
+  font-size: 12px;
+}
+.mistral-footer-bottom a {
+  color: #a0aec0;
+  text-decoration: none;
+}
+.mistral-footer-bottom a:hover {
+  color: #ff8a3d;
+}
+
+@media (max-width: 760px) {
+  .mistral-footer-track {
+    height: 130vh;
+    margin-top: 60px;
+  }
+  .mascot-img {
+    width: 180px;
+    height: 180px;
+    border-width: 3px;
+  }
+  .footer-inner {
+    padding: 24px 16px 20px;
+    gap: 20px;
+  }
+  .mistral-footer-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .footer-nav {
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 12px;
+  }
+  .footer-ack-bar {
+    padding: 12px 14px;
+  }
+  .footer-ack-text {
+    font-size: 13px;
+  }
+  .mistral-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
