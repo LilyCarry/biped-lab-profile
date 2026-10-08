@@ -235,43 +235,44 @@
 
 
 /* =========================================================================
-   CLEAN MISTRAL-STYLE FOOTER WITH ZERO BOTTOM BLANK SPACE & OVERSCROLL MASCOT
+   PERFECTED MISTRAL HORIZON FOOTER & CONTINUOUS PHYSICS OVERSCROLL MASCOT
    ========================================================================= */
 
 .site-footer {
-  position: relative;
-  width: 100%;
-  margin-top: 80px;
-  background: #090d16;
-  overflow: visible; /* Allows the mascot to rise above the footer */
-  padding: 0;
-  box-sizing: border-box;
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  margin-top: 80px !important;
+  padding: 0 !important;
+  background: #090d16 !important;
+  border: none !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
 }
 
-/* Sunset stripe (Mistral signature rainbow gradient along the top edge of footer) */
+/* Retro Sunset Stripe (Mistral Signature Horizon Line directly atop the dark bar) */
 .sunset-stripe {
-  height: 5px;
-  width: 100%;
-  background: linear-gradient(90deg, #ffe9b8 0%, #ff8a3d 25%, #fa520f 50%, #e02460 75%, #a8268f 100%);
-  display: block;
-  position: relative;
-  z-index: 25;
+  display: block !important;
+  width: 100% !important;
+  height: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 25 !important; /* Stays above the submerged mascot */
+  background: linear-gradient(90deg, #ffe9b8 0%, #ff8a3d 25%, #fa520f 50%, #e02460 75%, #a8268f 100%) !important;
+  border: none !important;
 }
 
-/* Centered Mascot Stage - Tucked directly behind the sunset stripe */
+/* Mascot Stage: Submerged behind the horizon, rises continuously via physics rAF */
 .mascot-stage {
-  position: absolute;
-  left: 50%;
-  bottom: 100%; /* Sits right at the top edge of the footer */
-  transform: translateX(-50%) translateY(102%); /* 102% down: hidden completely behind the footer */
-  z-index: 15; /* Sits behind sunset-stripe (z: 25) and footer content (z: 20) */
+  position: absolute !important;
+  left: 50% !important;
+  bottom: calc(100% - 6px) !important; /* Horizon anchor: bottom of card sits right on the sunset stripe */
+  transform: translateX(-50%) translateY(250px); /* Initially 100% submerged behind dark footer */
+  z-index: 15 !important; /* Behind the sunset stripe (z: 25) and dark content (z: 20) */
   pointer-events: none;
-  transition: transform 0.45s cubic-bezier(0.22, 1.25, 0.36, 1);
   will-change: transform;
-}
-.mascot-stage.emerged {
-  transform: translateX(-50%) translateY(0%); /* Pops out above the stripe! */
-  pointer-events: auto;
+  transition: none !important; /* Physics loop directly drives transform */
 }
 
 .mascot-frame {
@@ -287,24 +288,38 @@
   border-radius: 20px 20px 0 0;
   object-fit: cover;
   display: block;
-  box-shadow: 0 -14px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -14px 40px rgba(0, 0, 0, 0.45);
   border: 4px solid #fff;
   border-bottom: none;
   cursor: pointer;
   background: #0d121f;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   user-select: none;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
 .mascot-img:hover {
-  transform: translateY(-8px) scale(1.03);
+  transform: translateY(-6px) scale(1.02);
+}
+
+.mascot-img.bounce {
+  animation: mascot-bounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes mascot-bounce {
+  0% { transform: scale(1); }
+  35% { transform: translateY(-16px) scale(1.08) rotate(-2deg); }
+  70% { transform: translateY(4px) scale(0.96) rotate(1deg); }
+  100% { transform: scale(1) rotate(0deg); }
 }
 
 /* Dark Footer Navigation Bar */
 .mistral-footer-content {
-  position: relative;
-  z-index: 20;
-  background: #090d16;
-  border-top: none;
+  position: relative !important;
+  z-index: 20 !important;
+  background: #090d16 !important;
+  border-top: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .footer-inner {
@@ -315,6 +330,7 @@
   flex-direction: column;
   gap: 26px;
 }
+
 .mistral-footer-row {
   display: flex;
   justify-content: space-between;
@@ -322,31 +338,37 @@
   flex-wrap: wrap;
   gap: 20px;
 }
+
 .footer-brand {
   display: flex;
   align-items: center;
   gap: 14px;
 }
+
 .footer-brand-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
+
 .footer-brand-info strong {
   color: #fff;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
+
 .footer-brand-info small {
   color: #8892a4;
   font-size: 12px;
 }
+
 .footer-nav {
   display: flex;
   align-items: center;
   gap: 24px;
 }
+
 .footer-nav a {
   color: #a4b0c6;
   text-decoration: none;
@@ -354,9 +376,11 @@
   font-weight: 500;
   transition: color 0.2s ease;
 }
+
 .footer-nav a:hover {
   color: #ff8a3d;
 }
+
 .footer-back-top {
   color: #ff6600 !important;
   font-weight: 600 !important;
@@ -372,21 +396,25 @@
   flex-direction: column;
   gap: 6px;
 }
+
 .footer-ack-tag {
   color: #ff8a3d;
   font: 700 11px var(--mono);
   letter-spacing: 0.08em;
 }
+
 .footer-ack-text {
   margin: 0;
   color: #e2e8f0;
   font-size: 14px;
   line-height: 1.6;
 }
+
 .footer-ack-text strong {
   color: #fff;
   font-weight: 700;
 }
+
 .footer-ack-sub {
   color: #718096;
   font-size: 11px;
@@ -401,12 +429,61 @@
   color: #64748b;
   font-size: 12px;
 }
+
 .mistral-footer-bottom a {
   color: #a0aec0;
   text-decoration: none;
 }
+
 .mistral-footer-bottom a:hover {
   color: #ff8a3d;
+}
+
+@media (max-width: 760px) {
+  .site-footer {
+    margin-top: 60px !important;
+  }
+
+  .mascot-stage {
+    transform: translateX(-50%) translateY(190px);
+  }
+
+  .mascot-img {
+    width: 190px;
+    height: 190px;
+    border-width: 3px;
+  }
+
+  .footer-inner {
+    padding: 24px 16px 20px;
+    gap: 20px;
+  }
+
+  .mistral-footer-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .footer-nav {
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 12px;
+  }
+
+  .footer-ack-bar {
+    padding: 12px 14px;
+  }
+
+  .footer-ack-text {
+    font-size: 13px;
+  }
+
+  .mistral-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 }
 
 @media (max-width: 760px) {

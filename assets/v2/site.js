@@ -148,72 +148,120 @@ layout();updateScroll();
 
 
 
-// --- Bottom Overscroll Mascot Pop-up (Stationary Page, Emerges on Continued Scroll) ---
+
+// --- Continuous Physics Overscroll Mascot (Mistral Horizon Style) ---
 (function() {
   const mascot = document.getElementById('mascot-stage');
   const footer = document.getElementById('site-footer');
+  const img = document.getElementById('mascot-click-img');
   if (!mascot || !footer) return;
 
-  let isEmerged = false;
+  function getMascotHeight() {
+    return window.innerWidth <= 760 ? 190 : 250;
+  }
+
+  let mascotHeight = getMascotHeight();
+  let currentY = mascotHeight; // in px; mascotHeight = fully submerged, 0 = fully emerged
+  let targetY = mascotHeight;
+  let isTrackingTouch = false;
   let touchStartY = 0;
+  let touchStartTargetY = mascotHeight;
+
+  window.addEventListener('resize', () => {
+    mascotHeight = getMascotHeight();
+    if (targetY > mascotHeight) targetY = mascotHeight;
+  });
 
   function isAtPageBottom() {
-    return (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 8);
+    return (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 10);
   }
 
-  function setMascotEmerged(show) {
-    if (show && !isEmerged) {
-      isEmerged = true;
-      mascot.classList.add('emerged');
-      mascot.setAttribute('aria-hidden', 'false');
-    } else if (!show && isEmerged) {
-      isEmerged = false;
-      mascot.classList.remove('emerged');
-      mascot.setAttribute('aria-hidden', 'true');
-    }
-  }
-
+  // 1. Desktop Wheel Continuous Physics
   window.addEventListener('wheel', (e) => {
-    if (isAtPageBottom()) {
-      if (e.deltaY > 0) {
-        setMascotEmerged(true);
-      } else if (e.deltaY < 0 && isEmerged) {
-        setMascotEmerged(false);
-      }
-    } else {
-      if (isEmerged) {
-        setMascotEmerged(false);
-      }
-    }
-  }, { passive: true });
+    const atBottom = isAtPageBottom();
+    if (!atBottom) return;
 
+    if (e.deltaY > 0) {
+      // Continuing to scroll down while at the bottom: pull the mascot up continuously
+      const prev = targetY;
+      targetY = Math.max(0, targetY - e.deltaY * 0.45);
+      if (targetY < mascotHeight && targetY !== prev) {
+        e.preventDefault();
+      }
+    } else if (e.deltaY < 0 && targetY < mascotHeight) {
+      // Scrolling up while mascot is out: push it back down into the horizon before page scrolls up
+      targetY = Math.min(mascotHeight, targetY - e.deltaY * 0.45);
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // 2. Mobile Touch Continuous Physics
   window.addEventListener('touchstart', (e) => {
-    if (e.touches.length > 0) touchStartY = e.touches[0].clientY;
+    if (isAtPageBottom() && e.touches.length === 1) {
+      touchStartY = e.touches[0].clientY;
+      touchStartTargetY = targetY;
+      isTrackingTouch = true;
+    } else {
+      isTrackingTouch = false;
+    }
   }, { passive: true });
 
   window.addEventListener('touchmove', (e) => {
-    if (e.touches.length > 0 && isAtPageBottom()) {
-      const currentY = e.touches[0].clientY;
-      const diffY = touchStartY - currentY;
-      if (diffY > 20) {
-        setMascotEmerged(true);
-      } else if (diffY < -20 && isEmerged) {
-        setMascotEmerged(false);
-      }
+    if (!isTrackingTouch || e.touches.length !== 1) return;
+    const atBottom = isAtPageBottom();
+    if (!atBottom && targetY >= mascotHeight) return;
+
+    const deltaY = touchStartY - e.touches[0].clientY; // positive when dragging up
+    if (deltaY > 0) {
+      targetY = Math.max(0, touchStartTargetY - deltaY * 0.85);
+    } else if (deltaY < 0 && targetY < mascotHeight) {
+      targetY = Math.min(mascotHeight, touchStartTargetY - deltaY * 0.85);
     }
   }, { passive: true });
 
+  window.addEventListener('touchend', () => {
+    if (!isTrackingTouch) return;
+    isTrackingTouch = false;
+    if (targetY < mascotHeight * 0.55) {
+      targetY = 0; // magnetic snap to fully emerged
+    } else {
+      targetY = mascotHeight; // magnetic snap to fully submerged
+    }
+  }, { passive: true });
+
+  // 3. Auto-retract when scrolling back up the page
   window.addEventListener('scroll', () => {
-    if (isEmerged && (window.innerHeight + window.scrollY) < (document.documentElement.scrollHeight - 35)) {
-      setMascotEmerged(false);
+    const atBottom = isAtPageBottom();
+    if (!atBottom && targetY < mascotHeight) {
+      targetY = mascotHeight;
     }
   }, { passive: true });
 
-  const img = document.getElementById('mascot-click-img');
+  // 4. Smooth Spring / Damping Physics Animation Loop (rAF)
+  function renderPhysics() {
+    const diff = targetY - currentY;
+    if (Math.abs(diff) > 0.1) {
+      currentY += diff * 0.20;
+      mascot.style.transform = `translateX(-50%) translateY(${currentY.toFixed(1)}px)`;
+      mascot.setAttribute('aria-hidden', currentY >= mascotHeight - 2 ? 'true' : 'false');
+      mascot.style.pointerEvents = currentY < mascotHeight * 0.6 ? 'auto' : 'none';
+    } else if (currentY !== targetY) {
+      currentY = targetY;
+      mascot.style.transform = `translateX(-50%) translateY(${currentY.toFixed(1)}px)`;
+      mascot.setAttribute('aria-hidden', currentY >= mascotHeight - 2 ? 'true' : 'false');
+      mascot.style.pointerEvents = currentY < mascotHeight * 0.6 ? 'auto' : 'none';
+    }
+    requestAnimationFrame(renderPhysics);
+  }
+  requestAnimationFrame(renderPhysics);
+
+  // 5. Interactive Mascot Click Bounce
   if (img) {
-    img.addEventListener('click', () => {
-      img.style.transform = 'translateY(-14px) scale(1.06) rotate(-3deg)';
-      setTimeout(() => { img.style.transform = ''; }, 260);
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      img.classList.remove('bounce');
+      void img.offsetWidth;
+      img.classList.add('bounce');
     });
   }
 })();
