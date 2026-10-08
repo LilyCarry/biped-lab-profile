@@ -26,15 +26,36 @@ function createView(host,interactive){
  try{
   const scene=new T.Scene();const renderer=new T.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.setClearColor(0,0);if(T.sRGBEncoding)renderer.outputEncoding=T.sRGBEncoding;
   host.querySelector('.model-loading')?.remove();host.append(renderer.domElement);renderer.domElement.setAttribute('aria-label','MPU6050 三维板卡，拖动可旋转观察');renderer.domElement.setAttribute('role','img');
-  const camera=new T.PerspectiveCamera(37,1,.1,40);camera.position.set(2.65,3.3,3.5);if(host.id==='mini-stage'){camera.position.set(1.6,2.0,2.25);camera.fov=34;}camera.lookAt(0,0,0);
+  const camera=new T.PerspectiveCamera(37,1,.1,40);
+   if(host.id==='mini-stage'){
+     camera.position.set(1.42,1.50,1.88);
+     camera.fov=34;
+     camera.lookAt(0,0.10,0);
+   }else{
+     camera.position.set(2.35,2.25,2.85);
+     camera.lookAt(0,0.18,0);
+   }
   scene.add(new T.HemisphereLight(0xfffcf0,0x516e67,.95));const key=new T.DirectionalLight(0xfff8e6,.9);key.position.set(2,6,4);scene.add(key);const fill=new T.DirectionalLight(0xa7d5ea,.6);fill.position.set(-3,2,-4);scene.add(fill);
   const model=createDetailedBoard();scene.add(model);
   const grid=new T.GridHelper(6,20,0x9eafa6,0xc8d4cb);grid.position.y=-.53;grid.material.transparent=true;grid.material.opacity=.35;scene.add(grid);
   const shadowCanvas=document.createElement('canvas');shadowCanvas.width=128;shadowCanvas.height=128;const c=shadowCanvas.getContext('2d');const grad=c.createRadialGradient(64,64,2,64,64,60);grad.addColorStop(0,'rgba(39,60,48,.2)');grad.addColorStop(1,'rgba(39,60,48,0)');c.fillStyle=grad;c.fillRect(0,0,128,128);const shadow=new T.Mesh(new T.PlaneGeometry(3.4,2.7),new T.MeshBasicMaterial({map:new T.CanvasTexture(shadowCanvas),transparent:true,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=-.52;scene.add(shadow);
-  const controls=new T.OrbitControls(camera,renderer.domElement);controls.enablePan=false;controls.enableZoom=host.id==='full-stage';controls.enableDamping=true;controls.dampingFactor=.09;controls.minDistance=2.4;controls.maxDistance=10;controls.maxPolarAngle=Math.PI*.89;controls.saveState();
-  const view={host,renderer,scene,camera,controls,model,visible:false,interactive};views.push(view);
+  const controls=new T.OrbitControls(camera,renderer.domElement);
+   controls.enablePan=false;
+   controls.enableZoom=host.id==='full-stage';
+   controls.enableDamping=true;
+   controls.dampingFactor=.09;
+   controls.minDistance=2.0;
+   controls.maxDistance=10;
+   controls.maxPolarAngle=Math.PI*.89;
+   if(host.id==='mini-stage'){
+     controls.target.set(0,0.10,0);
+   }else{
+     controls.target.set(0,0.18,0);
+   }
+   controls.saveState();
+  const view={host,renderer,scene,camera,controls,model,visible:true,interactive};views.push(view);
   function resize(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
-  new ResizeObserver(resize).observe(host);resize();
+  new ResizeObserver(resize).observe(host);resize();try{renderer.render(scene,camera);}catch(e){}
   new IntersectionObserver(entries=>{view.visible=entries[0].isIntersecting;},{threshold:0}).observe(host);
   renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();status.textContent='三维绘制暂时中断，请刷新页面恢复。';});
   return view;
