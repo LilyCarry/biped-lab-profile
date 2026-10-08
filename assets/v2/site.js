@@ -95,45 +95,67 @@ layout();updateScroll();
 
 
 
-// --- Mistral Footer Mascot Runway Scroll ---
+
+// --- Bottom Overscroll Mascot Pop-up (Stationary Page, Emerges on Continued Scroll) ---
 (function() {
-  const track = document.getElementById('footer-track');
   const mascot = document.getElementById('mascot-stage');
-  const footerContent = document.querySelector('.mistral-footer-content');
-  if (!track || !mascot) return;
+  const footer = document.getElementById('site-footer');
+  if (!mascot || !footer) return;
 
-  function updateFooterMascot() {
-    const rect = track.getBoundingClientRect();
-    const trackH = track.offsetHeight;
-    const winH = window.innerHeight;
-    const scrollable = trackH - winH;
-    if (scrollable <= 0) return;
+  let isEmerged = false;
+  let touchStartY = 0;
 
-    // Scrolled distance into the track
-    const scrolledInto = -rect.top;
-    const progress = Math.min(1, Math.max(0, scrolledInto / scrollable));
+  function isAtPageBottom() {
+    return (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 8);
+  }
 
-    // Dynamic content bar height
-    const contentH = footerContent ? footerContent.offsetHeight : 220;
-    mascot.style.bottom = `${contentH - 4}px`; // Sits right behind the top edge of footerContent
-
-    // Start emerging after scrolling 20% into the runway
-    const p = Math.min(1, Math.max(0, (progress - 0.2) / 0.75));
-    
-    // translateY: 105% (tucked behind the dark bar) -> 0% (rises in the center)
-    const translateY = (1 - p) * 105;
-    mascot.style.transform = `translateX(-50%) translateY(${translateY}%)`;
-
-    if (p > 0.85) {
-      mascot.classList.add('pinned-visible');
-    } else {
-      mascot.classList.remove('pinned-visible');
+  function setMascotEmerged(show) {
+    if (show && !isEmerged) {
+      isEmerged = true;
+      mascot.classList.add('emerged');
+      mascot.setAttribute('aria-hidden', 'false');
+    } else if (!show && isEmerged) {
+      isEmerged = false;
+      mascot.classList.remove('emerged');
+      mascot.setAttribute('aria-hidden', 'true');
     }
   }
 
-  window.addEventListener('scroll', updateFooterMascot, { passive: true });
-  window.addEventListener('resize', updateFooterMascot, { passive: true });
-  updateFooterMascot();
+  window.addEventListener('wheel', (e) => {
+    if (isAtPageBottom()) {
+      if (e.deltaY > 0) {
+        setMascotEmerged(true);
+      } else if (e.deltaY < 0 && isEmerged) {
+        setMascotEmerged(false);
+      }
+    } else {
+      if (isEmerged) {
+        setMascotEmerged(false);
+      }
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches.length > 0) touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0 && isAtPageBottom()) {
+      const currentY = e.touches[0].clientY;
+      const diffY = touchStartY - currentY;
+      if (diffY > 20) {
+        setMascotEmerged(true);
+      } else if (diffY < -20 && isEmerged) {
+        setMascotEmerged(false);
+      }
+    }
+  }, { passive: true });
+
+  window.addEventListener('scroll', () => {
+    if (isEmerged && (window.innerHeight + window.scrollY) < (document.documentElement.scrollHeight - 35)) {
+      setMascotEmerged(false);
+    }
+  }, { passive: true });
 
   const img = document.getElementById('mascot-click-img');
   if (img) {

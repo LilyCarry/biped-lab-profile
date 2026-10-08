@@ -49,58 +49,55 @@
 </div>
 
 <!-- Mistral-Style Dark Footer Track with Mascot Runway -->
-<footer class="mistral-footer-track" id="footer-track">
-  <div class="mistral-footer-sticky" id="footer-sticky">
-    
-    <!-- Retro Sunset Stripe (Mistral Signature) -->
-    <div class="sunset-stripe" aria-hidden="true"></div>
 
-    <!-- Centered Mascot Pop-up (Rises from the bottom center as you scroll through the runway) -->
-    <div class="mascot-stage" id="mascot-stage" aria-hidden="true">
-      <div class="mascot-frame">
-        <img src="assets/deepseek_maid.jpg" alt="DeepSeek 大肥鱼女仆 - ZipZipPipe" class="mascot-img" id="mascot-click-img" title="戳我一下~">
-      </div>
+<!-- Mistral-Style Clean Dark Footer with Zero Bottom Blank Space -->
+<footer class="site-footer" id="site-footer">
+  <!-- Centered Mascot Pop-up (Rises directly from behind the rainbow sunset stripe on bottom overscroll) -->
+  <div class="mascot-stage" id="mascot-stage" aria-hidden="true">
+    <div class="mascot-frame">
+      <img src="assets/deepseek_maid.jpg" alt="DeepSeek 大肥鱼女仆 - ZipZipPipe" class="mascot-img" id="mascot-click-img" title="戳我一下~">
     </div>
+  </div>
 
-    <!-- Dark Footer Navigation Bar & Content -->
-    <div class="mistral-footer-content">
-      <div class="footer-inner">
-        <div class="mistral-footer-row">
-          <div class="footer-brand">
-            <span class="brand-symbol">CA</span>
-            <div class="footer-brand-info">
-              <strong>ʎɹɹɐƆ <i>/</i> Carry</strong>
-              <small>双足实验室招新 · 个人工程档案 2026</small>
-            </div>
+  <!-- Retro Sunset Stripe (Mistral Signature atop the dark bar) -->
+  <div class="sunset-stripe" aria-hidden="true"></div>
+
+  <!-- Dark Footer Content -->
+  <div class="mistral-footer-content">
+    <div class="footer-inner">
+      <div class="mistral-footer-row">
+        <div class="footer-brand">
+          <span class="brand-symbol">CA</span>
+          <div class="footer-brand-info">
+            <strong>ʎɹɹɐƆ <i>/</i> Carry</strong>
+            <small>双足实验室招新 · 个人工程档案 2026</small>
           </div>
-
-          <nav class="footer-nav">
-            <a href="#projects">项目</a>
-            <a href="#direction">工业测量</a>
-            <a href="https://github.com/LilyCarry" target="_blank" rel="noopener">GitHub ↗</a>
-            <a href="#top" class="footer-back-top">返回顶部 ↑</a>
-          </nav>
         </div>
 
-        <!-- Clean AI Acknowledgments inside the dark footer -->
-        <div class="footer-ack-bar">
-          <div class="footer-ack-tag">AI COLLABORATORS // 幕后工友</div>
-          <p class="footer-ack-text">
-            特别鸣谢 <strong>6 Astra</strong>、<strong>Gemini 3.8</strong> 与 <strong>DeepSeek</strong> 在思路拆解、3D 调试、页面构建与工程折腾中的大力支持。
-          </p>
-          <span class="footer-ack-sub">插画形象来自 B站 @ZipZipPipe · 仅作非商业学习与交流致谢</span>
-        </div>
+        <nav class="footer-nav">
+          <a href="#projects">项目</a>
+          <a href="#direction">工业测量</a>
+          <a href="https://github.com/LilyCarry" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="#top" class="footer-back-top">返回顶部 ↑</a>
+        </nav>
+      </div>
 
-        <div class="mistral-footer-bottom">
-          <span>© 2026 ʎɹɹɐƆ · Carry · 自动化</span>
-          <a href="mailto:xu762556@outlook.com">xu762556@outlook.com ↗</a>
-        </div>
+      <!-- Clean AI Acknowledgments inside the dark footer -->
+      <div class="footer-ack-bar">
+        <div class="footer-ack-tag">AI COLLABORATORS // 幕后工友</div>
+        <p class="footer-ack-text">
+          特别鸣谢 <strong>6 Astra</strong>、<strong>Gemini 3.8</strong> 与 <strong>DeepSeek</strong> 在思路拆解、3D 调试、页面构建与工程折腾中的大力支持。
+        </p>
+        <span class="footer-ack-sub">插画形象来自 B站 @ZipZipPipe · 仅作非商业学习与交流致谢</span>
+      </div>
+
+      <div class="mistral-footer-bottom">
+        <span>© 2026 ʎɹɹɐƆ · Carry · 自动化</span>
+        <a href="mailto:xu762556@outlook.com">xu762556@outlook.com ↗</a>
       </div>
     </div>
-
   </div>
 </footer>
-
 </main>
 <dialog id="model-dialog" class="model-dialog"><div class="dialog-header"><div><span class="eyebrow">INTERACTIVE / MPU6050</span><h2>让模型跟着你动。</h2></div><button class="close" data-close aria-label="关闭模型窗口">×</button></div><div id="full-stage" class="full-stage"></div><div class="model-control"><button data-mode="demo" class="active">演示姿态</button><button data-mode="manual">自由查看</button><button data-mode="phone">使用手机姿态</button><button id="calibrate">归零 / 重置视角</button></div><p id="sensor-status" role="status">演示姿态：可拖动旋转视角。这里展示的是模拟运动，不是已连接的 MPU6050 数据。</p><div class="readings"><span>ROLL <b id="read-roll">0.0°</b></span><span>PITCH <b id="read-pitch">0.0°</b></span><span>YAW <b id="read-yaw">0.0°</b></span></div></dialog>
 <dialog id="note-dialog" class="note-dialog"><form id="note-form"><div class="dialog-header"><h2 id="note-heading">留一条新线索。</h2><button type="button" class="close" data-close aria-label="关闭">×</button></div><label for="note-type">线索类型</label><select id="note-type"><option value="idea">灵感便签</option><option value="experiment">实验记录</option><option value="sticker">图标贴纸</option></select><label for="note-text">写点什么</label><textarea id="note-text" maxlength="100" rows="3">新想法：先做一个能运行的小版本。</textarea><label for="note-icon">选一个图标</label><select id="note-icon"><option value="✳">✳ 灵感</option><option value="▧">▧ 芯片</option><option value="⌘">⌘ 代码</option><option value="↗">↗ 下一步</option><option value="⚡">⚡ 动手</option><option value="✓">✓ 完成</option></select><p class="note-text">只保存在这台设备的浏览器中。双击便签可再次编辑。</p><div class="form-actions"><button type="button" id="delete-note" hidden>删除这张</button><button type="submit" class="solid-button">贴到线索板</button></div></form></dialog>
