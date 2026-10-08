@@ -64,15 +64,54 @@ const demoEuler=new T.Euler(),phoneEuler=new T.Euler(),lastManual=new T.Quaterni
 function animate(time){frame=requestAnimationFrame(animate);if(document.hidden)return;const dt=Math.min((time-previous)/1000||.016,.1);previous=time;const seconds=reduced.matches?1:time/1000;
  const roll=Math.sin(seconds*.65)*13,pitch=Math.cos(seconds*.44)*9,yaw=Math.sin(seconds*.25)*16;demoEuler.set(pitch*Math.PI/180,-yaw*Math.PI/180,roll*Math.PI/180,'YXZ');
  if(mode==='phone')smoothPhone.slerp(phoneTarget,1-Math.exp(-12*dt));
- for(const v of views){if(!v.visible||(v===fullView&&!dialog.open))continue;const isPhone=mode==='phone'&&dialog.open;
+ for(const v of views){if(!v.visible||(v===fullView&&!dialog.open))continue;const isPhone=mode==='phone'&&Boolean(lastPhone);
   if(isPhone)v.model.quaternion.copy(smoothPhone);else if(mode==='manual'&&dialog.open)v.model.quaternion.copy(lastManual);else {v.model.rotation.copy(demoEuler);lastManual.copy(v.model.quaternion);}
   const touchReading=matchMedia('(max-width:1000px)').matches&&v!==fullView;v.controls.enabled=!touchReading;v.renderer.domElement.style.touchAction=touchReading?'pan-y':'none';v.controls.update();v.renderer.render(v.scene,v.camera);
  }
- if(time>nextRead){nextRead=time+100;let values={roll,pitch,yaw};if(mode==='phone'&&dialog.open){phoneEuler.setFromQuaternion(smoothPhone,'YXZ');values={roll:phoneEuler.z*180/Math.PI,pitch:phoneEuler.x*180/Math.PI,yaw:-phoneEuler.y*180/Math.PI};}else if(mode==='manual'&&dialog.open){phoneEuler.setFromQuaternion(lastManual,'YXZ');values={roll:phoneEuler.z*180/Math.PI,pitch:phoneEuler.x*180/Math.PI,yaw:-phoneEuler.y*180/Math.PI};}
+ if(time>nextRead){nextRead=time+100;let values={roll,pitch,yaw};if(mode==='phone'&&Boolean(lastPhone)){phoneEuler.setFromQuaternion(smoothPhone,'YXZ');values={roll:phoneEuler.z*180/Math.PI,pitch:phoneEuler.x*180/Math.PI,yaw:-phoneEuler.y*180/Math.PI};}else if(mode==='manual'&&dialog.open){phoneEuler.setFromQuaternion(lastManual,'YXZ');values={roll:phoneEuler.z*180/Math.PI,pitch:phoneEuler.x*180/Math.PI,yaw:-phoneEuler.y*180/Math.PI};}
   for(const [axis,value]of Object.entries(values)){const el=$('#read-'+axis);if(el)el.textContent=value.toFixed(1)+'°';const small=$('[data-mini-'+axis+']');if(small)small.textContent=value.toFixed(1)+'°';}
  }
 }
 requestAnimationFrame(animate);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&listening){useDemo();status.textContent='页面进入后台，已暂停手机姿态读取。返回后可重新开启。';}});
+
+// --- Mobile Gravity Sensor Auto-Activation (UA & Aspect Ratio Detection) ---
+function isMobileDevice() {
+  const ua = navigator.userAgent || '';
+  const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|MicroMessenger/i.test(ua);
+  const isNarrowOrPortrait = (window.innerWidth <= 820) || (window.innerHeight > window.innerWidth);
+  const hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  return (isMobileUA || isNarrowOrPortrait) && hasTouch;
+}
+
+function autoInitMobileSensor() {
+  if (!isMobileDevice()) return;
+  selectMode('phone');
+  
+  if (typeof DeviceOrientationEvent !== 'undefined') {
+    if (typeof DeviceOrientationEvent.requestPermission !== 'function') {
+      // Android / Chrome Mobile / WeChat: listen immediately
+      listening = true;
+      window.addEventListener('deviceorientation', receivePhone, { passive: true });
+      if (status) status.textContent = '重力感应已连接：转动手机实时同步 3D 板卡。';
+    } else {
+      // iOS Safari: user gesture request on first touch
+      const reqIOS = async () => {
+        try {
+          const res = await DeviceOrientationEvent.requestPermission();
+          if (res === 'granted') {
+            listening = true;
+            window.addEventListener('deviceorientation', receivePhone, { passive: true });
+            if (status) status.textContent = '重力感应已连接：转动手机实时同步 3D 板卡。';
+          }
+        } catch (err) {}
+      };
+      window.addEventListener('touchstart', reqIOS, { once: true });
+      window.addEventListener('click', reqIOS, { once: true });
+    }
+  }
+}
+autoInitMobileSensor();
+
 window.Biped3D={views,get mode(){return mode;}};
 })();
