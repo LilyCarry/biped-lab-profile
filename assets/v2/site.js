@@ -93,7 +93,7 @@ new ResizeObserver(()=>{layout();}).observe(board);
 layout();updateScroll();
 })();
 
-// --- Floating Bottom Meme Easter Egg ---
+// --- Floating Bottom Meme Easter Egg (Deeply Tucked & Extreme Bottom Trigger) ---
 (function() {
   const meme = document.getElementById('bottom-meme');
   if (!meme) return;
@@ -101,8 +101,9 @@ layout();updateScroll();
   function checkMeme() {
     const scrollBottom = window.innerHeight + window.scrollY;
     const docHeight = document.documentElement.scrollHeight;
-    // Trigger when within 320px of bottom
-    if (scrollBottom >= docHeight - 320) {
+    // Only trigger when user scrolls to the very bottom (within 70px of total height)
+    const isAtVeryBottom = scrollBottom >= docHeight - 70;
+    if (isAtVeryBottom) {
       if (!shown) {
         meme.classList.add('visible');
         meme.setAttribute('aria-hidden', 'false');
@@ -123,13 +124,8 @@ layout();updateScroll();
   const img = document.getElementById('meme-click-img');
   if (img) {
     img.addEventListener('click', () => {
-      img.style.transform = 'scale(0.9) rotate(8deg)';
-      setTimeout(() => { img.style.transform = ''; }, 220);
-      const b = meme.querySelector('.meme-bubble');
-      if (b) {
-        b.textContent = '数据还在，继续加油！(๑•̀ㅂ•́)و✧';
-        b.style.background = 'var(--red)';
-      }
+      img.style.transform = 'scale(0.92) rotate(6deg)';
+      setTimeout(() => { img.style.transform = ''; }, 200);
     });
   }
 })();
