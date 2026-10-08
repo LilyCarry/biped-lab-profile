@@ -75,14 +75,66 @@ $$('dialog').forEach(dialog=>{dialog.querySelectorAll('[data-close]').forEach(b=
 $$('[data-image]').forEach(a=>a.onclick=e=>{e.preventDefault();$('#large-image').src=a.dataset.image;$('#large-image').alt=a.dataset.caption;$('#large-caption').textContent=a.dataset.caption;openDialog($('#image-dialog'));});
 // Sticky scroll sequence: pin first, expand from the right, then release to normal document flow.
 const track=$('#hero-track'),panel=$('#feature-panel'),compact=$('#panel-compact'),full=$('#panel-full'),bench=$('#workbench');let scrollFrame=0;
-function updateScroll(){scrollFrame=0;if(mobile()){
- panel.style.width='';bench.style.opacity='';bench.style.transform='';bench.inert=false;compact.style.opacity='';compact.style.pointerEvents='';compact.inert=false;compact.removeAttribute('aria-hidden');full.classList.remove('visible');full.inert=true;full.setAttribute('aria-hidden','true');panel.style.setProperty('--expand-progress',0);return;
- }
- const r=track.getBoundingClientRect(),travel=Math.max(1,track.offsetHeight-innerHeight);let p=clamp(-r.top/travel,0,1);const grow=clamp(p/.78,0,1);const eased=grow*grow*(3-2*grow);const base=.36;
- panel.style.width=((base+(1-base)*eased)*100)+'%';panel.style.setProperty('--expand-progress',p.toFixed(4));
- bench.style.opacity=String(1-clamp(p/.55,0,1));bench.style.transform=`translateX(${-50*clamp(p/.5,0,1)}px)`;bench.inert=p>.2;
- const show=p>.30;compact.style.opacity=String(1-clamp((p-.16)/.20,0,1));compact.style.pointerEvents=p>.16?'none':'';compact.inert=p>.16;compact.setAttribute('aria-hidden',String(p>.16));
- full.classList.toggle('visible',show);full.inert=!show;full.setAttribute('aria-hidden',String(!show));$('.scroll-meter span').style.width=(p*100)+'%';
+function updateScroll() {
+  scrollFrame = 0;
+  if (mobile()) {
+    panel.style.width = '';
+    bench.style.opacity = '';
+    bench.style.transform = '';
+    bench.inert = false;
+    compact.style.opacity = '';
+    compact.style.transform = '';
+    compact.style.pointerEvents = '';
+    compact.inert = false;
+    compact.removeAttribute('aria-hidden');
+    full.style.opacity = '';
+    full.style.transform = '';
+    full.classList.remove('visible');
+    full.inert = true;
+    full.setAttribute('aria-hidden', 'true');
+    panel.style.setProperty('--expand-progress', 0);
+    return;
+  }
+
+  const r = track.getBoundingClientRect();
+  const travel = Math.max(1, track.offsetHeight - innerHeight);
+  const p = clamp(-r.top / travel, 0, 1);
+
+  // Phase 1 (p: 0 -> 0.18): Compact panel fades out gracefully with subtle lift
+  const compactProgress = clamp(p / 0.18, 0, 1);
+  const compactOpacity = 1 - compactProgress;
+  compact.style.opacity = compactOpacity.toFixed(3);
+  compact.style.transform = `translateY(${-16 * compactProgress}px)`;
+  compact.style.pointerEvents = p > 0.12 ? 'none' : '';
+  compact.inert = p > 0.12;
+  compact.setAttribute('aria-hidden', String(p > 0.12));
+
+  // Workbench & board (p: 0 -> 0.50): Fades and slides slightly to the left
+  const benchProgress = clamp(p / 0.50, 0, 1);
+  bench.style.opacity = (1 - benchProgress).toFixed(3);
+  bench.style.transform = `translateX(${-50 * benchProgress}px)`;
+  bench.inert = p > 0.22;
+
+  // Phase 2 (p: 0.10 -> 0.70): Curtain reveals by expanding panel width with cubic bezier easing
+  const grow = clamp((p - 0.10) / 0.60, 0, 1);
+  const eased = grow < 0.5 ? 4 * grow * grow * grow : 1 - Math.pow(-2 * grow + 2, 3) / 2;
+  const base = 0.36;
+  const panelWidthPercent = (base + (1 - base) * eased) * 100;
+  panel.style.width = panelWidthPercent.toFixed(2) + '%';
+  panel.style.setProperty('--expand-progress', p.toFixed(4));
+
+  // Phase 3 (p: 0.45 -> 0.72): Full panel fades in smoothly and glides up (ZERO clipping, ZERO text reflow)
+  const fullProgress = clamp((p - 0.45) / 0.24, 0, 1);
+  const fullShow = p > 0.40;
+  full.classList.toggle('visible', fullShow);
+  full.style.opacity = fullProgress.toFixed(3);
+  full.style.transform = `translateY(${20 * (1 - fullProgress)}px)`;
+  full.inert = !fullShow;
+  full.style.pointerEvents = fullProgress > 0.8 ? 'auto' : 'none';
+  full.setAttribute('aria-hidden', String(!fullShow));
+
+  const meter = $('.scroll-meter span');
+  if (meter) meter.style.width = (p * 100) + '%';
 }
 function onScroll(){if(!scrollFrame)scrollFrame=requestAnimationFrame(updateScroll);}
 window.addEventListener('scroll',onScroll,{passive:true});
