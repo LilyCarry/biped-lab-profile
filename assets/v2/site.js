@@ -265,3 +265,231 @@ layout();updateScroll();
     });
   }
 })();
+
+
+// =========================================================================
+// 3D POINT CLOUD & COORDINATE SYSTEM CANVAS (INDUSTRIAL MEASUREMENT AESTHETIC)
+// =========================================================================
+(function initPointCloud() {
+  const canvas = document.getElementById('pointcloud-canvas');
+  const container = document.getElementById('panel-full');
+  if (!canvas || !container) return;
+
+  const ctx = canvas.getContext('2d');
+  let width = 0, height = 0;
+  let dpr = 1;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = container.clientWidth;
+    height = container.clientHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Generate 42 3D spatial point cloud nodes
+  const numPoints = 42;
+  const points = [];
+  for (let i = 0; i < numPoints; i++) {
+    points.push({
+      x: (Math.random() - 0.5) * 440,
+      y: (Math.random() - 0.5) * 260,
+      z: (Math.random() - 0.5) * 360,
+      baseX: 0, baseY: 0, baseZ: 0,
+      attractX: 0, attractY: 0,
+      projX: 0, projY: 0,
+      size: 1.5 + Math.random() * 1.5,
+      pulse: Math.random() * Math.PI * 2
+    });
+  }
+  points.forEach(p => { p.baseX = p.x; p.baseY = p.y; p.baseZ = p.z; });
+
+  // Coordinate axes vertices
+  const axes = [
+    { name: 'X', x: 220, y: 0, z: 0, color: 'rgba(168, 73, 53, 0.7)' },  // Red accent
+    { name: 'Y', x: 0, y: -160, z: 0, color: 'rgba(85, 125, 103, 0.7)' }, // Green accent
+    { name: 'Z', x: 0, y: 0, z: 200, color: 'rgba(63, 113, 128, 0.7)' }  // Blue accent
+  ];
+
+  // Ground grid lines on X-Z plane (y = 80)
+  const gridLines = [];
+  const gridSize = 200, gridStep = 50;
+  for (let x = -gridSize; x <= gridSize; x += gridStep) {
+    gridLines.push({ p1: { x, y: 80, z: -gridSize }, p2: { x, y: 80, z: gridSize } });
+  }
+  for (let z = -gridSize; z <= gridSize; z += gridStep) {
+    gridLines.push({ p1: { x: -gridSize, y: 80, z }, p2: { x: gridSize, y: 80, z } });
+  }
+
+  // Mouse & Parallax State
+  let mouseX = 0, mouseY = 0;
+  let targetRotY = 0.45, targetRotX = 0.22;
+  let rotY = 0.45, rotX = 0.22;
+  let hasMouse = false;
+
+  window.addEventListener('pointermove', (e) => {
+    const rect = container.getBoundingClientRect();
+    if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
+      hasMouse = true;
+      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+      targetRotY = 0.45 + nx * 0.28;
+      targetRotX = 0.22 - ny * 0.20;
+    } else {
+      hasMouse = false;
+      targetRotY = 0.45;
+      targetRotX = 0.22;
+    }
+  });
+
+  // 3D Perspective Projection
+  const fov = 420;
+  const camDist = 580;
+
+  function project(x, y, z) {
+    // 1. Rotate Y
+    const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+    const x1 = x * cosY + z * sinY;
+    const z1 = -x * sinY + z * cosY;
+
+    // 2. Rotate X
+    const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+    const y2 = y * cosX - z1 * sinX;
+    const z2 = y * sinX + z1 * cosX;
+
+    // 3. Perspective
+    const scale = fov / (z2 + camDist);
+    const cx = width * 0.65; // Anchor slightly to the right half
+    const cy = height * 0.52;
+    return {
+      x: x1 * scale + cx,
+      y: y2 * scale + cy,
+      z: z2,
+      scale
+    };
+  }
+
+  function loop() {
+    requestAnimationFrame(loop);
+
+    // Only render if container is visible
+    if (!container.classList.contains('visible') && parseFloat(container.style.opacity || '0') < 0.05) {
+      return;
+    }
+
+    // Smooth rotation lerp
+    rotY += (targetRotY - rotY) * 0.08;
+    rotX += (targetRotX - rotX) * 0.08;
+
+    ctx.clearRect(0, 0, width, height);
+
+    // 1. Draw subtle ground grid
+    ctx.lineWidth = 1;
+    gridLines.forEach(l => {
+      const p1 = project(l.p1.x, l.p1.y, l.p1.z);
+      const p2 = project(l.p2.x, l.p2.y, l.p2.z);
+      if (p1.scale > 0 && p2.scale > 0) {
+        ctx.strokeStyle = 'rgba(215, 208, 197, 0.35)'; // faint line
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    });
+
+    // 2. Draw 3D Coordinate Axes (X, Y, Z)
+    const origin = project(0, 0, 0);
+    axes.forEach(a => {
+      const tip = project(a.x, a.y, a.z);
+      if (origin.scale > 0 && tip.scale > 0) {
+        ctx.strokeStyle = a.color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(origin.x, origin.y);
+        ctx.lineTo(tip.x, tip.y);
+        ctx.stroke();
+
+        // Label
+        ctx.fillStyle = a.color;
+        ctx.font = 'bold 10px monospace';
+        ctx.fillText(`+${a.name}`, tip.x + 6, tip.y + 4);
+      }
+    });
+
+    // 3. Update Points & Magnetic Attraction
+    points.forEach(p => {
+      p.pulse += 0.03;
+      // Gentle floating breathing
+      const breath = Math.sin(p.pulse) * 4;
+      p.x = p.baseX + breath;
+      p.y = p.baseY + Math.cos(p.pulse * 0.8) * 3;
+
+      // Project
+      const proj = project(p.x, p.y, p.z);
+      p.projX = proj.x + p.attractX;
+      p.projY = proj.y + p.attractY;
+      p.depth = proj.z;
+      p.scale = proj.scale;
+
+      // Magnetic attraction to mouse
+      if (hasMouse) {
+        const dx = mouseX - p.projX;
+        const dy = mouseY - p.projY;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 160 && dist > 1) {
+          const force = (160 - dist) / 160;
+          p.attractX += (dx / dist) * force * 1.8;
+          p.attractY += (dy / dist) * force * 1.8;
+        }
+      }
+      p.attractX *= 0.90; // smooth return
+      p.attractY *= 0.90;
+    });
+
+    // 4. Draw Connecting Lines (Point Cloud Constellation Mesh)
+    ctx.lineWidth = 1;
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        const p1 = points[i], p2 = points[j];
+        if (p1.scale <= 0 || p2.scale <= 0) continue;
+        const dx = p1.projX - p2.projX, dy = p1.projY - p2.projY;
+        const dist2D = Math.hypot(dx, dy);
+        if (dist2D < 95) {
+          const alpha = (1 - dist2D / 95) * 0.32;
+          ctx.strokeStyle = `rgba(119, 113, 105, ${alpha.toFixed(3)})`;
+          ctx.beginPath();
+          ctx.moveTo(p1.projX, p1.projY);
+          ctx.lineTo(p2.projX, p2.projY);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // 5. Draw Points / Nodes
+    points.forEach(p => {
+      if (p.scale <= 0) return;
+      ctx.fillStyle = 'rgba(37, 35, 33, 0.55)';
+      ctx.beginPath();
+      ctx.arc(p.projX, p.projY, p.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Tiny crosshair on selected points
+      if (p.size > 2.2) {
+        ctx.strokeStyle = 'rgba(168, 73, 53, 0.45)';
+        ctx.beginPath();
+        ctx.moveTo(p.projX - 4, p.projY);
+        ctx.lineTo(p.projX + 4, p.projY);
+        ctx.moveTo(p.projX, p.projY - 4);
+        ctx.lineTo(p.projX, p.projY + 4);
+        ctx.stroke();
+      }
+    });
+  }
+
+  requestAnimationFrame(loop);
+})();

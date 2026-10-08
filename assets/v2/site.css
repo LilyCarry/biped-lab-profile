@@ -598,3 +598,191 @@
     word-break: break-word !important;
   }
 }
+
+
+/* =========================================================================
+   LAYERED ENGINEERING WATERMARKS & 3D POINT CLOUD BACKGROUND
+   ========================================================================= */
+
+/* 1. 3D Coordinate System & Point Cloud Canvas */
+.pointcloud-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+#panel-full {
+  position: relative;
+  overflow: hidden;
+}
+
+#panel-full > *:not(.pointcloud-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+/* 2. PCB Schematic Blueprint Watermark */
+.pcb-feature {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.pcb-schematic-watermark {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 45%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 45%, transparent 85%);
+}
+
+.pcb-schematic-watermark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left center;
+  filter: grayscale(100%) contrast(1.15);
+}
+
+.pcb-images, .pcb-feature .project-copy {
+  position: relative;
+  z-index: 1;
+}
+
+/* 3. Shiguang Schedule Watermark */
+.pr-card-shiguang {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.pr-watermark {
+  position: absolute;
+  right: -25px;
+  bottom: -20px;
+  width: 260px;
+  height: 150px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.13;
+  mask-image: radial-gradient(circle at 75% 75%, black 35%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at 75% 75%, black 35%, transparent 80%);
+}
+
+.pr-watermark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  filter: grayscale(80%) contrast(1.1);
+}
+
+.pr-card > *:not(.pr-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+/* 4. Smart Band Section Redesign (Replaced Harsh Black Box with IDE Backdrop & Floating Pills) */
+.band-visual {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 380px !important;
+  padding: 30px !important;
+  background: #131722 !important; /* Soft deep IDE canvas */
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.08) !important;
+}
+
+.band-backdrop-code {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  overflow: hidden;
+  mask-image: radial-gradient(circle at 40% 50%, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 65%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle at 40% 50%, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 65%, transparent 100%);
+}
+
+.band-backdrop-code img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
+  filter: blur(0.8px) contrast(1.1);
+}
+
+.band-pill-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  width: 100%;
+}
+
+.band-pill-wrapper img {
+  width: 38%;
+  max-height: 290px;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.5)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.band-pill-wrapper img:hover {
+  transform: translateY(-8px) scale(1.04);
+}
+
+/* 5. STM32 / HAL / CubeMX Chip Watermark */
+.learning-cubemx {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.cubemx-watermark {
+  position: absolute;
+  right: -25px;
+  bottom: -25px;
+  width: 190px;
+  height: 190px;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mask-image: radial-gradient(circle at 65% 65%, black 35%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at 65% 65%, black 35%, transparent 80%);
+}
+
+.cubemx-watermark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: contrast(1.15);
+}
+
+.learning-grid article > *:not(.cubemx-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 760px) {
+  .band-visual {
+    min-height: 290px !important;
+    padding: 20px !important;
+  }
+  .band-pill-wrapper img {
+    max-height: 210px;
+  }
+  .pcb-schematic-watermark {
+    opacity: 0.12;
+  }
+}
