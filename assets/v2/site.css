@@ -627,15 +627,22 @@
   z-index: 1 !important;
 }
 
-/* 2. PCB Section: Front board full-height backdrop with smooth gradient */
+/* 2. PCB Section: Full-bleed Editorial Strip (No Box, Fine Top/Bottom Dividers, High Vertical Gap) */
 .pcb-feature {
   position: relative !important;
-  min-height: 440px !important;
+  width: 100% !important;
+  min-height: 460px !important;
+  margin-top: 80px !important;
+  margin-bottom: 40px !important;
+  padding: 85px 0 !important; /* Top & bottom dividers expanded vertically for massive impact */
+  border-top: 1px solid var(--line) !important; /* Fine horizontal divider line */
+  border-bottom: 1px solid var(--line) !important; /* Fine horizontal divider line */
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important; /* No rounded card box! */
+  background: transparent !important; /* Pure page background */
+  box-shadow: none !important;
   overflow: hidden !important;
-  background: var(--paper) !important;
-  border: 1px solid var(--line) !important;
-  border-radius: 16px !important;
-  padding: 48px 42px !important;
   display: flex !important;
   align-items: center !important;
 }
@@ -645,27 +652,28 @@
   right: 0 !important;
   top: 0 !important;
   bottom: 0 !important;
-  width: 60% !important;
-  height: 100% !important;
+  width: 58% !important;
+  height: 100% !important; /* Fills full height from top divider to bottom divider */
   pointer-events: none !important;
   z-index: 0 !important;
-  opacity: 0.45 !important; /* Clearly see PCB traces, pads & silkscreen! */
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 22%, rgba(0,0,0,0.92) 65%, rgba(0,0,0,1) 100%) !important;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 22%, rgba(0,0,0,0.92) 65%, rgba(0,0,0,1) 100%) !important;
+  opacity: 0.52 !important; /* High contrast & clarity */
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.45) 20%, rgba(0,0,0,0.95) 60%, rgba(0,0,0,1) 100%) !important;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.45) 20%, rgba(0,0,0,0.95) 60%, rgba(0,0,0,1) 100%) !important;
 }
 
 .section-backdrop-pcb img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  object-position: right 75% !important; /* Hide status bar, focus on timetable grid */
-  filter: contrast(1.18) saturate(1.1) !important;
+  object-position: right center !important;
+  filter: contrast(1.22) saturate(1.15) !important;
 }
 
 .pcb-copy {
   position: relative !important;
   z-index: 1 !important;
   max-width: 540px !important;
+  padding-left: 0 !important;
 }
 
 /* 3. Open Source Section: Full-height Schedule Backdrop */
@@ -675,19 +683,17 @@
   padding-bottom: 30px !important;
 }
 
-.section-backdrop-schedule {
   position: absolute !important;
   right: 0 !important;
   top: 0 !important;
   bottom: 0 !important;
-  width: 46% !important;
+  width: 44% !important;
   height: 100% !important;
   pointer-events: none !important;
   z-index: 0 !important;
-  opacity: 0.42 !important; /* Crisp timetable grid */
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,1) 100%) !important;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,1) 100%) !important;
-}
+  opacity: 0.58 !important;
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 15%, rgba(0,0,0,0.95) 45%, rgba(0,0,0,1) 100%) !important;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 15%, rgba(0,0,0,0.95) 45%, rgba(0,0,0,1) 100%) !important;
 
 .section-backdrop-schedule img {
   width: 100% !important;
@@ -806,4 +812,25 @@
   .band-pill-wrapper img {
     max-height: 210px !important;
   }
+}
+
+
+.hal-code-watermark {
+  position: absolute !important;
+  right: -10px !important;
+  bottom: -10px !important;
+  width: 260px !important;
+  height: 155px !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  opacity: 0.32 !important;
+  mask-image: radial-gradient(circle at 75% 75%, black 40%, transparent 85%) !important;
+  -webkit-mask-image: radial-gradient(circle at 75% 75%, black 40%, transparent 85%) !important;
+  filter: contrast(1.15) !important;
+}
+.hal-code-watermark img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: left top !important;
 }
