@@ -78,8 +78,15 @@ for u in "${URLS[@]}"; do
 done
 
 echo "==> 4/5 关闭 GitHub Pages 工作流（避免私有仓库上跑注定失败的 Actions）"
-api PUT "/repos/$REPO_OWNER/$REPO_NAME/actions/workflows/pages.yml/disable" >/dev/null || echo "    工作流关闭失败（可忽略）"
-echo "    已请求关闭 pages.yml"
+resp="$(api PUT "/repos/$REPO_OWNER/$REPO_NAME/actions/workflows/pages.yml/disable" || true)"
+if echo "$resp" | grep -q '"message"'; then
+  echo "    ⚠ 关闭失败: $(echo "$resp" | grep -o '"message": *"[^"]*"' | head -1)"
+  echo "      → PAT 需要补上 Actions: Read and Write 权限才能关工作流。"
+  echo "        不加也不影响站点是否可见，只是私有期间每次 push 会多出一个失败的"
+  echo "        Actions run（红叉，无害）。"
+else
+  echo "    已关闭 pages.yml"
+fi
 
 echo "==> 5/5 仓库转私有"
 api PATCH "/repos/$REPO_OWNER/$REPO_NAME" '{"private": true}' \

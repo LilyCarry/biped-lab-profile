@@ -41,8 +41,14 @@ api PATCH "/repos/$REPO_OWNER/$REPO_NAME" '{"private": false}' \
   | grep -o '"private": *[a-z]*' | head -1
 
 echo "==> 2/5 重新启用 GitHub Pages 工作流"
-api PUT "/repos/$REPO_OWNER/$REPO_NAME/actions/workflows/pages.yml/enable" >/dev/null \
-  || echo "    启用失败（可忽略，后面 push 也会触发）"
+resp="$(api PUT "/repos/$REPO_OWNER/$REPO_NAME/actions/workflows/pages.yml/enable" || true)"
+if echo "$resp" | grep -q '"message"'; then
+  echo "    ⚠ 启用失败: $(echo "$resp" | grep -o '"message": *"[^"]*"' | head -1)"
+  echo "      → PAT 缺 Actions: Read and Write。若之前也没关成功，就无需启用，"
+  echo "        下面的 push 会正常触发 pages.yml。"
+else
+  echo "    已启用 pages.yml"
+fi
 
 echo "==> 3/5 revert 维护页 commit"
 PAUSE_SHA=""
