@@ -10,7 +10,7 @@
 </head>
 <body>
 <a class="skip" href="#projects">跳到项目内容</a>
-<header class="site-header"><a href="#top" class="brand"><span class="brand-symbol">CA</span><span>ʎɹɹɐƆ <i>/</i> Carry</span></a><span class="header-center">个人工程主页 <span>—</span> 2026</span><nav><a href="#projects">项目</a><a href="https://github.com/LilyCarry" target="_blank" rel="noopener">GitHub ↗</a></nav></header>
+<header class="site-header"><a href="#top" class="brand"><span class="brand-symbol">CA</span><span>ʎɹɹɐƆ <i>/</i> Carry</span></a><span class="header-center">个人工程主页 <span>—</span> 2026</span><nav><a href="#projects">项目</a><a href="https://github.com/LilyCarry" target="_blank" rel="noopener">GitHub ↗</a><div class="node-switcher" id="node-switcher"><button class="node-toggle" id="node-toggle" aria-haspopup="true" aria-expanded="false" title="切换部署镜像源"><span class="node-dot"></span><span class="node-label">源: <b id="node-current-name">GitHub</b></span><span class="node-arrow">▾</span></button><div class="node-menu" id="node-menu" hidden><div class="node-menu-head">切换镜像源 / SELECT MIRROR</div><div class="node-list"><a class="node-item is-active" href="https://lilycarry.github.io/biped-lab-profile/" data-host="lilycarry.github.io"><div class="node-item-info"><span class="node-name">GitHub Pages</span><span class="node-desc">国际主源 · 实时构建</span></div><span class="node-tag tag-live">主源</span></a><a class="node-item is-placeholder" href="javascript:void(0)" data-target="https://biped-lab-profile.pages.dev/" data-name="Cloudflare Pages"><div class="node-item-info"><span class="node-name">Cloudflare Pages</span><span class="node-desc">全球边缘 CDN · 高速直连</span></div><span class="node-tag tag-placeholder">待挂载</span></a><a class="node-item is-placeholder" href="javascript:void(0)" data-target="https://biped-lab-profile.netlify.app/" data-name="Netlify"><div class="node-item-info"><span class="node-name">Netlify</span><span class="node-desc">全冗余备用集群</span></div><span class="node-tag tag-placeholder">待挂载</span></a><a class="node-item is-placeholder" href="javascript:void(0)" data-target="#" data-name="AliCloud 专线"><div class="node-item-info"><span class="node-name">AliCloud 专线</span><span class="node-desc">国内云主机 · 物理冷备</span></div><span class="node-tag tag-placeholder">内部备用</span></a></div></div></div></nav></header>
 <main id="top">
 <section class="hero-track" id="hero-track" aria-label="互动线索板与个人介绍">
 <div class="hero-sticky" id="hero-sticky">
@@ -135,5 +135,61 @@
 <dialog id="note-dialog" class="note-dialog"><form id="note-form"><div class="dialog-header"><h2 id="note-heading">留一条新线索。</h2><button type="button" class="close" data-close aria-label="关闭">×</button></div><label for="note-type">线索类型</label><select id="note-type"><option value="idea">灵感便签</option><option value="experiment">实验记录</option><option value="sticker">图标贴纸</option></select><label for="note-text">写点什么</label><textarea id="note-text" maxlength="100" rows="3">新想法：先做一个能运行的小版本。</textarea><label for="note-icon">选一个图标</label><select id="note-icon"><option value="✳">✳ 灵感</option><option value="▧">▧ 芯片</option><option value="⌘">⌘ 代码</option><option value="↗">↗ 下一步</option><option value="⚡">⚡ 动手</option><option value="✓">✓ 完成</option></select><p class="note-text">只保存在这台设备的浏览器中。双击便签可再次编辑。</p><div class="form-actions"><button type="button" id="delete-note" hidden>删除这张</button><button type="submit" class="solid-button">贴到线索板</button></div></form></dialog>
 <dialog id="image-dialog" class="image-dialog"><button class="close" data-close aria-label="关闭大图">×</button><img id="large-image" alt=""><p id="large-caption"></p></dialog>
 <div id="toast" role="status"></div>
+<script>
+(() => {
+  const switcher = document.getElementById('node-switcher');
+  if (!switcher) return;
+  const toggle = document.getElementById('node-toggle');
+  const menu = document.getElementById('node-menu');
+  const labelEl = document.getElementById('node-current-name');
+  const toastEl = document.getElementById('toast');
+
+  const host = window.location.hostname.toLowerCase();
+  let currentName = 'GitHub';
+  if (host.includes('pages.dev')) currentName = 'Cloudflare';
+  else if (host.includes('netlify.app')) currentName = 'Netlify';
+  else if (host.includes('localhost') || host.includes('127.0.0.1')) currentName = '本地测试';
+  else if (host.includes('lilycarry.github.io')) currentName = 'GitHub';
+  if (labelEl) labelEl.textContent = currentName;
+
+  function showToastMsg(msg) {
+    if (toastEl) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastEl.timer);
+      toastEl.timer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+    }
+  }
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = menu.hidden;
+    menu.hidden = !willOpen;
+    toggle.setAttribute('aria-expanded', String(willOpen));
+    switcher.classList.toggle('is-open', willOpen);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!switcher.contains(e.target)) {
+      menu.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      switcher.classList.remove('is-open');
+    }
+  });
+
+  menu.querySelectorAll('.node-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      if (item.classList.contains('is-placeholder')) {
+        e.preventDefault();
+        const name = item.dataset.name || '该节点';
+        showToastMsg(`[${name}] 正在进行多源接入中，请先使用 GitHub Pages 主源`);
+        menu.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+        switcher.classList.remove('is-open');
+      }
+    });
+  });
+})();
+</script>
 
 </body></html>
