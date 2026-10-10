@@ -656,9 +656,9 @@
   height: 100% !important; /* Fills full height from top divider to bottom divider */
   pointer-events: none !important;
   z-index: 0 !important;
-  opacity: 0.52 !important; /* High contrast & clarity */
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.45) 20%, rgba(0,0,0,0.95) 60%, rgba(0,0,0,1) 100%) !important;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.45) 20%, rgba(0,0,0,0.95) 60%, rgba(0,0,0,1) 100%) !important;
+  opacity: 0.28 !important; /* Balanced semi-transparent watermark */
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.85) 100%) !important;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.85) 100%) !important;
 }
 
 .section-backdrop-pcb img {
@@ -749,9 +749,16 @@
 }
 
 @media (max-width: 760px) {
-  .section-backdrop-pcb,
-  .section-backdrop-schedule,
-  
+  .section-backdrop-pcb {
+    width: 80% !important;
+    opacity: 0.16 !important;
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.75) 100%) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.75) 100%) !important;
+  }
+  .section-backdrop-schedule {
+    width: 85% !important;
+    opacity: 0.22 !important;
+  }
   .band-visual {
     min-height: 290px !important;
     padding: 18px !important;
