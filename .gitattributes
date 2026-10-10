@@ -1,0 +1,2 @@
+# bash 脚本必须保持 LF，否则 Windows 上 clone 后 shebang 会带 \r 跑不起来
+*.sh text eol=lf
