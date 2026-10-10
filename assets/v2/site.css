@@ -834,35 +834,34 @@
   filter: contrast(1.2) saturate(1.1) !important;
 }
 
-.learning-cubemx > *:not(.hal-code-watermark),
+.learning-cubemx > *:not(.cubemx-card-watermark),
 .learning-freertos > *:not(.hal-code-watermark) {
   position: relative !important;
-  z-index: 1 !important;
+  z-index: 2 !important;
 }
 
-/* 5. Section 06 Backdrop ("接下来学什么"): High visibility & contrast, not pale! */
-.section-backdrop-cubemx {
+/* 5. CubeMX Chip Watermark inside .learning-cubemx card */
+.learning-cubemx .cubemx-card-watermark {
   position: absolute !important;
-  right: 20px !important;
+  right: -15px !important;
   top: 0 !important;
   bottom: 0 !important;
-  width: 38% !important;
+  width: 50% !important;
   height: 100% !important;
   pointer-events: none !important;
   z-index: 0 !important;
-  opacity: 0.72 !important;
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.35) 15%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,1) 100%) !important;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.35) 15%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,1) 100%) !important;
+  opacity: 0.38 !important;
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.9) 70%, rgba(0,0,0,1) 100%) !important;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.9) 70%, rgba(0,0,0,1) 100%) !important;
 }
 
-.section-backdrop-cubemx img {
+.learning-cubemx .cubemx-card-watermark img {
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
-  object-position: right top !important;
-  filter: contrast(1.35) saturate(1.2) !important;
+  object-position: right center !important;
+  filter: contrast(1.18) saturate(1.15) !important;
 }
-
 
 #opensource .section-heading,
 #learning .section-heading {
