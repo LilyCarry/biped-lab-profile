@@ -755,10 +755,6 @@
     mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.75) 100%) !important;
     -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.75) 100%) !important;
   }
-  .section-backdrop-schedule {
-    width: 85% !important;
-    opacity: 0.22 !important;
-  }
   .band-visual {
     min-height: 290px !important;
     padding: 18px !important;
@@ -773,38 +769,37 @@
 
 
 
-/* 3. Open Source Section: Full-height Semi-transparent Schedule Backdrop */
-#opensource {
+/* 3. Open Source Section: Card Watermark for Shiguang Schedule */
+.pr-card-shiguang {
   position: relative !important;
   overflow: hidden !important;
-  padding-bottom: 40px !important;
 }
 
-.section-backdrop-schedule {
+.schedule-card-watermark {
   position: absolute !important;
   right: 0 !important;
   top: 0 !important;
   bottom: 0 !important;
-  width: 38% !important;
+  width: 48% !important;
   height: 100% !important;
   pointer-events: none !important;
   z-index: 0 !important;
-  opacity: 0.38 !important;
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.9) 60%, rgba(0,0,0,1) 100%) !important;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.9) 60%, rgba(0,0,0,1) 100%) !important;
+  opacity: 0.35 !important;
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,1) 100%) !important;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.85) 65%, rgba(0,0,0,1) 100%) !important;
 }
 
-.section-backdrop-schedule img {
+.schedule-card-watermark img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  object-position: right center !important;
+  object-position: right top !important;
   filter: contrast(1.15) !important;
 }
 
-#opensource > *:not(.section-backdrop-schedule) {
+.pr-card-shiguang > *:not(.schedule-card-watermark) {
   position: relative !important;
-  z-index: 2 !important; /* Content stays on top */
+  z-index: 2 !important;
 }
 
 /* 4. Code Interface: Fill the whole module with semi-transparent gradient */
