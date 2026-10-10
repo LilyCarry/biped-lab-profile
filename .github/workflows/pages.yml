@@ -25,6 +25,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # 仓库私有<->公开切换后 GitHub 可能重置 Pages 配置，
+          # enablement: true 让工作流在 Pages 未启用时自动启用它
+          enablement: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
