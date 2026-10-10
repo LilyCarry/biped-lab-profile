@@ -3,3 +3,7 @@
 .wrangler/
 _cf_upload/
 node_modules/
+
+# 暂停/恢复脚本的状态文件与凭据
+.pause-state
+.biped_site_token
