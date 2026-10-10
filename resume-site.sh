@@ -68,10 +68,26 @@ fi
 git push origin "HEAD:main"
 rm -f .pause-state
 
-echo "==> 4/5 等待三个源恢复正式页面（最多 6 分钟）"
+echo "==> 4/5 检查 Pages 配置（转私有会让 GitHub 删掉 Pages 站点，转回公开不会自动恢复）"
+has_pages="$(api GET "/repos/$REPO_OWNER/$REPO_NAME" | grep -o '"has_pages": *[a-z]*' | head -1 | tr -d ' ' | cut -d: -f2)"
+echo "    has_pages = ${has_pages:-未知}"
+SKIP_GH=0
+if [ "$has_pages" = "false" ]; then
+  SKIP_GH=1
+  echo "    ⚠ Pages 已被重置，需要手动恢复一次（二选一）："
+  echo "      A) 仓库 Settings -> Pages -> Source 选 'GitHub Actions'，"
+  echo "         然后到 Actions 页对 pages.yml 点 'Re-run all jobs'"
+  echo "      B) 给 PAT 补 Pages: Read and write 权限，重跑本脚本即可自动启用"
+fi
+
+echo "==> 5/5 等待各源恢复正式页面"
 for u in "${URLS[@]}"; do
+  case "$u" in
+    *lilycarry.github.io*)
+      if [ "$SKIP_GH" = 1 ]; then echo "    - $u 跳过（Pages 未启用）"; continue; fi ;;
+  esac
   ok=0
-  for i in $(seq 1 36); do
+  for i in $(seq 1 18); do
     body="$(curl -sS --max-time 20 "$u" || true)"
     if echo "$body" | grep -q "$LIVE_MARK" && ! echo "$body" | grep -q "$MARKER"; then ok=1; break; fi
     sleep 10
@@ -79,25 +95,9 @@ for u in "${URLS[@]}"; do
   if [ "$ok" = 1 ]; then echo "    ✓ $u"; else echo "    ✗ $u 超时未恢复"; fi
 done
 
-echo "==> 5/5 检查 GitHub Pages 状态"
-api GET "/repos/$REPO_OWNER/$REPO_NAME/pages" \
-  | C:/Users/xu762/.workbuddy-ai/binaries/python/envs/default/Scripts/python.exe -c "
-import sys,json
-try:
-    d=json.load(sys.stdin)
-except Exception:
-    print('    无法解析 Pages 状态'); raise SystemExit
-if 'message' in d:
-    print('    Pages 未启用或报错:', d['message'])
-else:
-    print('    url:', d.get('html_url'), '| status:', d.get('status'))
-    print('    build_type:', d.get('build_type'))
-" 2>/dev/null || echo "    (状态查询跳过)"
-
 cat <<'TIP'
 
-==> 完成。如果 GitHub Pages 仍 404：
-    去仓库 Settings -> Pages，把 Source 重新选为 "GitHub Actions"
-    （私有<->公开来回切换后，GitHub 有时会重置这个配置）
-    选好后可在 Actions 页手动 Run workflow 触发一次 pages.yml。
+==> 完成。
+    注意：如果 GitHub Pages 仍 404，是"转私有删掉了 Pages 配置"导致的，
+    按上面第 4 步的 A 或 B 处理一次即可，之后不再需要。
 TIP
