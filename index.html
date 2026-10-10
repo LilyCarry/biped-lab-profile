@@ -1,18 +1,201 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>暂时关闭</title>
-<style>
-  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f6f3ed;color:#252321;
-       font-family:ui-sans-serif,system-ui,"Segoe UI",sans-serif;}
-  .box{text-align:center;padding:40px;}
-  h1{font-size:22px;font-weight:600;margin:0 0 10px;}
-  p{font-size:14px;color:#6b6660;margin:0;}
-</style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f3ed"><meta name="description" content="ʎɹɹɐƆ (Carry) 的个人工程线索板：PCB、MPU6050 姿态可视化、开源贡献和 AI 协作。">
+<title>ʎɹɹɐƆ · Carry · 个人工程线索板</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23a84935'/%3E%3Ctext x='8' y='32' fill='white' font-size='24'%3EKR%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/v2/site.css">
+<script defer src="assets/v2/three.min.js"></script><script defer src="assets/v2/OrbitControls.js"></script><script defer src="assets/v2/imu-model.js"></script><script defer src="assets/v2/scene.js"></script><script defer src="assets/v2/site.js"></script>
 </head>
-<body><div class="box"><h1>站点暂时关闭</h1><p>Site temporarily offline.</p></div></body>
-</html>
-<!-- MAINTENANCE_MODE_MARK_2026 -->
+<body>
+<a class="skip" href="#projects">跳到项目内容</a>
+<header class="site-header"><a href="#top" class="brand"><span class="brand-symbol">CA</span><span>ʎɹɹɐƆ <i>/</i> Carry</span></a><span class="header-center">个人工程主页 <span>—</span> 2026</span><nav><a href="#projects">项目</a><a href="https://github.com/LilyCarry" target="_blank" rel="noopener">GitHub ↗</a><div class="node-switcher" id="node-switcher"><button class="node-toggle" id="node-toggle" aria-haspopup="true" aria-expanded="false" title="切换部署镜像源"><span class="node-dot"></span><span class="node-label">源: <b id="node-current-name">GitHub</b></span><span class="node-arrow">▾</span></button><div class="node-menu" id="node-menu" hidden><div class="node-menu-head">切换镜像源 / SELECT MIRROR</div><div class="node-list"><a class="node-item" href="https://lilycarry.github.io/biped-lab-profile/" data-host="lilycarry.github.io"><div class="node-item-info"><span class="node-name">GitHub Pages</span><span class="node-desc">国际主源 · 实时构建</span></div><span class="node-tag tag-live">主源</span></a><a class="node-item" href="https://biped-lab-profile.pages.dev/" data-host="biped-lab-profile.pages.dev" data-name="Cloudflare Pages"><div class="node-item-info"><span class="node-name">Cloudflare Pages</span><span class="node-desc">全球边缘 CDN · 高速直连</span></div><span class="node-tag tag-live">实时</span></a><a class="node-item" href="https://bi-lab-pro.netlify.app/" data-host="bi-lab-pro.netlify.app" data-name="Netlify"><div class="node-item-info"><span class="node-name">Netlify</span><span class="node-desc">全冗余备用集群</span></div><span class="node-tag tag-live">实时</span></a><a class="node-item is-placeholder" href="javascript:void(0)" data-target="#" data-name="AliCloud 专线"><div class="node-item-info"><span class="node-name">AliCloud 专线</span><span class="node-desc">国内云主机 · 物理冷备</span></div><span class="node-tag tag-placeholder">内部备用</span></a></div></div></div></nav></header>
+<main id="top">
+<section class="hero-track" id="hero-track" aria-label="互动线索板与个人介绍">
+<div class="hero-sticky" id="hero-sticky">
+<div class="workbench" id="workbench">
+<div class="board-intro"><div><div class="eyebrow">01 — THE WORKBENCH</div><h1>好玩的想法，<br>动手连起来<span>。</span></h1></div><div class="intro-side"><p>硬件、代码，还有一些新尝试。<br>这是我的个人工程线索板。</p><span class="hint-desktop">拖动卡片 · 连线跟随 · 随手写画</span><span class="hint-mobile">点开项目，或试试 3D 姿态互动</span></div></div>
+<div class="board-shell">
+<div class="board-bar"><span class="board-label"><span class="live-dot"></span> 我的线索板 <small>/ 拖动标题栏</small></span><div class="tools"><button id="add-clue" aria-label="添加便签或贴纸">＋ 添加</button><button id="pen-toggle" aria-pressed="false">✎ 画笔</button><button id="undo-ink" title="撤销上一笔">↶</button><button id="arrange" title="恢复预设节点位置，保留你的便签">整理</button></div><button class="mobile-model" data-model-open>体验 3D ↗</button></div>
+<div class="board" id="board"><svg id="threads" aria-hidden="true"></svg><canvas id="ink" aria-label="涂鸦层"></canvas>
+<article class="clue clue-pcb" data-id="pcb" data-x="0.015" data-y="0.015" style="--tilt:-2deg"><div class="drag-handle"><span>01 / HARDWARE</span><span>⠿</span></div><a href="#pcb-project" class="clue-link"><img src="assets/fc_pcb_top.png" alt="四层 PCB 的实际布局截图"><strong>画板子，搭硬件 <span>↗</span></strong><small>2 层 / 4 层 PCB</small></a></article>
+<article class="clue clue-imu" data-id="imu" data-x="0.50" data-y="0.27" style="--tilt:0deg"><div class="drag-handle"><span><b class="tiny-dot"></b> MPU6050 / 已完成</span><span>⠿</span></div><div class="model-viewport" id="mini-stage" aria-label="可旋转的 MPU6050 三维模型"><span class="model-loading">正在载入三维模型…</span></div><div class="model-caption"><span>拖动旋转 · 真正的 3D</span><button data-model-open aria-label="放大 MPU6050 三维模型">放大 ↗</button></div><div class="mini-telemetry"><span>ROLL <b data-mini-roll>0.0°</b></span><span>PITCH <b data-mini-pitch>0.0°</b></span><span class="demo-badge">演示姿态</span></div></article>
+<article class="clue clue-ai" data-id="ai" data-x="0.985" data-y="0.01" style="--tilt:3deg"><div class="drag-handle"><span>HOW I BUILD</span><span>⠿</span></div><a class="clue-link" href="#approach"><span class="pixel-star" aria-hidden="true">✳</span><strong>和 AI 一起折腾</strong><small>拆问题 → 运行 → 验证</small></a></article>
+<article class="clue clue-pr" data-id="schedule" data-x="0.015" data-y="0.62" style="--tilt:1deg"><div class="drag-handle"><span>OPEN SOURCE / 01</span><span>⠿</span></div><a href="https://github.com/ShiGuangSchedule/shiguang_warehouse/pull/552" target="_blank" rel="noopener" class="clue-link"><strong>拾光课程表 ↗</strong><small>郑州大学适配 <b>#552</b></small></a></article>
+<article class="clue clue-pr" data-id="ime" data-x="0.015" data-y="0.985" style="--tilt:-2deg"><div class="drag-handle"><span>OPEN SOURCE / 02</span><span>⠿</span></div><a href="https://github.com/metasequoiaime/msime-windows/pull/351" target="_blank" rel="noopener" class="clue-link"><strong>水杉输入法 ↗</strong><small>候选窗滚轮翻页 <b>#351</b></small></a></article>
+<article class="clue clue-learn" data-id="rtos" data-x="0.985" data-y="0.51" style="--tilt:-2deg"><div class="drag-handle"><span>NEXT / 下一步</span><span>⠿</span></div><a href="#learning" class="clue-link"><strong>FreeRTOS</strong><small>从任务、队列开始</small><span class="task-icons">▰ ─ ▰ ─ ▰</span></a></article>
+<article class="clue clue-hal" data-id="hal" data-x="0.50" data-y="0.99" style="--tilt:1deg"><div class="drag-handle"><span>LEARNING / 进行中</span><span>⠿</span></div><a href="#learning" class="clue-link"><strong>STM32 · HAL</strong><small>标准库 → HAL / CubeMX</small></a></article>
+<article class="clue clue-band" data-id="band" data-x="0.985" data-y="0.99" style="--tilt:2deg"><div class="drag-handle"><span>SMALL DEVICE</span><span>⠿</span></div><a href="#band-project" class="clue-link"><strong>手腕上的小项目 ↗</strong><small>突破 3.6 万下载 · 自动发货闭环</small></a></article>
+</div>
+<div class="board-foot"><span><i class="legend-line"></i> 已有实践 <i class="legend-line dashed"></i> 正在延伸</span><span>随意探索，这里没有标准答案。</span></div>
+</div></div>
+<aside class="feature-panel" id="feature-panel"><div class="panel-compact" id="panel-compact"><div class="eyebrow">02 — ABOUT ME <span>↙</span></div><div class="compact-body"><span class="name-label">你好，我是 ʎɹɹɐƆ（Carry）。</span><h2>好奇一点，<br>先动手<br><em>做出来。</em></h2><p>郑州大学 · 自动化<br>喜欢硬件，也喜欢把软件和 AI<br>接进自己的小实验。</p><a href="#direction" class="panel-cta">认识我和我的项目 <span>↗</span></a></div><div class="compact-bottom"><span class="direction-tag">招新意向方向：工业测量</span><p>想从传感器与测量出发，<br>继续学习三维空间里的问题。</p><button id="expand-button">向下滑，展开这一页 <span>↓</span></button><div class="scroll-meter"><span></span></div></div></div>
+<div class="panel-full" id="panel-full" aria-hidden="true" inert><canvas id="pointcloud-canvas" class="pointcloud-canvas" aria-hidden="true"></canvas><div class="full-header"><span class="eyebrow">02 — A CLOSER LOOK</span><span>郑州大学自动化 · 个人工程主页</span></div><div class="full-grid"><div><span class="name-label">双足实验室招新意向 // 工业测量与 3D</span><h2><span class="nobr">工业测量</span><span>，</span><br><span class="nobr">从一个真实的</span><br><em>问题开始。</em></h2><p>做过 PCB，也把 MPU6050 的数据变成了电脑上的三维姿态。我想沿着这些实验继续学，理解怎样采集可靠的数据、看清误差，再把结果用起来。</p><a class="text-link" href="#projects">往下看具体项目 ↘</a></div><div class="full-notes"><div><span>01 / 已有实践</span><h3>跑通基础链路</h3><p>2 / 4 层 PCB 打样调试、MPU6050 姿态采集；也做过很基础的 DHT22 温湿度与红外人在雷达，用来对房间状态做简单量化。知道怎么把物理量变成数字，但也切实体会到漂移和噪声有多烦人。</p></div><div><span>02 / 为什么是测量</span><h3>看清现实的尺度</h3><p>控制的前提是测量。不管是运动体姿态还是空间重建，只要传感器测不准、有漂移，上层的决策和模型就无从谈起。</p></div><div><span>03 / 想尝试的方向</span><h3>把真实世界量准</h3><p>无论是机械臂抓零件还是机器人走平路，第一步都得先知道眼前的东西有多远、歪了多少度。未来想在实验室学习工业相机与测距传感器的标定和测量，搞明白怎么在震动和反光里把干扰滤掉，把物理世界量得稳稳当当。</p></div></div></div><div class="full-footer"><span>硬件 → 数据 → 滤波纠偏 → 三维空间</span><span>继续向下，查看项目 ↓</span></div></div>
+</aside></div></section>
+<div class="page-content">
+<section class="direction-mobile" id="direction"><span class="eyebrow">双足实验室招新 · 意向方向：工业测量</span><h2><span class="nobr">从基础传感器，</span><br><span class="nobr">到把空间和距离量准。</span></h2><p>做过温湿度、人体红外和 MPU6050 姿态。最直观的体会就是：现实里的传感器全是噪声和抖动，如果前面测不准，后面算得再漂亮也没用。未来想在实验室系统学习工业测量，理解怎样用相机和测距传感器看清真实空间里的尺寸、距离与误差。</p></section>
+<section class="section" id="projects"><div class="section-heading"><span class="eyebrow">03 — SELECTED PROJECTS</span><div><h2>做过一些，<br>还想再多试一些。</h2><p>把过程和结果放在一起，比堆一排技术名词更有用。</p></div></div>
+<article class="project-feature" id="imu-project"><div class="project-copy"><div class="project-meta"><span>01 / 嵌入式 · 姿态可视化</span><span class="status">已完成</span></div><h3>让传感器的数据，<br>在屏幕里转起来。</h3><p>STM32 采集 MPU6050 的加速度与角速度，通过串口传回电脑，实时驱动三维模型。仰头与翻滚靠重力拉着很稳；但水平转圈因为 6 轴芯片没有磁力计，时间久了会有积分漂移，在上位机里专门加了手动一键归零。项目里对比了互补滤波和卡尔曼滤波在手抖和震动下的表现。</p><div class="chips"><span>互补滤波</span><span>卡尔曼滤波</span><span>Mahony</span><span>串口通信</span><span>手动归零</span></div><button class="solid-button" data-model-open>打开 3D 姿态体验 ↗</button><small class="note-text">主页模型使用演示姿态；手机可切换为本机传感器。</small></div><div class="imu-illustration"><div class="project-scene" id="project-stage" aria-label="MPU6050 三维板卡预览"></div><div class="technical-caption"><span>MPU-6050 / 6-AXIS IMU</span><span>采集 → 串口 → 3D</span></div></div></article>
+<article class="pcb-feature" id="pcb-project">
+  <!-- Front PCB board as full-height section backdrop with horizontal gradient fade -->
+  <div class="section-backdrop-pcb" aria-hidden="true">
+    <img src="assets/fc_pcb_top.png" alt="飞控 PCB 正面板">
+  </div>
+  <div class="project-copy pcb-copy">
+    <div class="project-meta">02 / PCB DESIGN</div>
+    <h3>从原理图，<br>到自己的板子。</h3>
+    <p>自己设计 2 层和 4 层板。把元器件选型、封装匹配与布局布线连起来，再通过打样贴片和实测排错，真正理解硬件底层的电源、总线与信号完整性。</p>
+    <div class="chips">
+      <span>2 层 / 4 层</span>
+      <span>飞控主板</span>
+      <span>元器件选型</span>
+      <span>布局布线</span>
+      <span>首件实测</span>
+    </div>
+    <button class="solid-button" data-image="assets/fc_pcb_top.png" data-caption="飞控 PCB 正面板顶层布局">查看正面 PCB 原图 ↗</button>
+  </div>
+</article>
+</section>
+<section class="section" id="opensource">
+  <div class="section-heading"><span class="eyebrow">04 — OPEN SOURCE</span><div><h2>两个项目，<br>具体的小改进。</h2><p>在 AI 辅助下阅读代码、定位问题和准备提交。下面的链接直接指向已合并的 PR。</p></div></div>
+
+  <div class="pr-grid"><article class="pr-card pr-card-shiguang"><div class="schedule-card-watermark" aria-hidden="true"><img src="assets/shiguang_schedule.jpg" alt="郑州大学课表示例"></div><div class="pr-head"><span class="project-icon">▦</span><span class="merged">● MERGED</span></div><h3>拾光课程表</h3><p>为郑州大学增加课表适配，让课程名称、时间和地点可以被读取。后续修正了下午课程的时间偏移。</p><a class="pr-main" href="https://github.com/ShiGuangSchedule/shiguang_warehouse/pull/552" target="_blank" rel="noopener"><span>郑州大学适配</span><b>#552 ↗</b></a><a class="pr-secondary" href="https://github.com/ShiGuangSchedule/shiguang_warehouse/pull/770" target="_blank" rel="noopener">后续修复：下午课程时间 <span>#770 ↗</span></a></article>
+<article class="pr-card"><div class="pr-head"><span class="project-icon">杉</span><span class="merged">● MERGED</span></div><h3>水杉输入法</h3><p>为候选窗加入鼠标滚轮翻页；另一次提交修复了 MSVC 在中文编码环境下构建测试目标的问题。</p><a class="pr-main" href="https://github.com/metasequoiaime/msime-windows/pull/351" target="_blank" rel="noopener"><span>候选窗滚轮翻页</span><b>#351 ↗</b></a><a class="pr-secondary" href="https://github.com/metasequoiaime/msime-windows/pull/331" target="_blank" rel="noopener">另一次贡献：UTF-8 编译修复 <span>#331 ↗</span></a></article></div>
+</section>
+<section class="section other-projects" id="band-project"><div class="band-visual"><div class="band-pill-wrapper"><img src="assets/wrist_ledger_1.png" alt="小米手环闪电记账本界面" loading="lazy"><img src="assets/wrist_driver_1.png" alt="小米手环驾考应用界面" loading="lazy"></div></div><div><span class="eyebrow">05 — SMALL & PLAYFUL</span><h2>小屏幕，<br>也能装下新点子。</h2><p>和 AI 协作开发小米手环快应用，累计突破 3.6 万次真实下载。写过题库速记与微记账，也自写 Python 脚本跑通了无人值守的自动化交付流程。</p><div class="small-experiments"><div><b>腕上小工具 / 《环间驾考》与《闪电记账本》</b><p>整理了驾考题库做离线速记，加入间隔记忆算法；另一款做手腕快速记账与月度预算，功能简单但很实用。</p></div><div><b>自动交付 / Python 自动化脚本</b><p>写了一个小脚本自动处理分发与激活码发放，跑通了无人值守的自动化交付链路。比起代码本身，更开心的是看它在真实世界里被人用起来。</p></div></div></div></section>
+<section class="section" id="learning">
+  <div class="section-heading"><span class="eyebrow">06 — NOW & NEXT</span><div><h2>接下来学什么，<br>从已有实验里找。</h2></div></div>
+  <div class="learning-grid"><article class="learning-cubemx"><div class="cubemx-card-watermark" aria-hidden="true"><img src="assets/cubemx_pinout.png" alt="STM32CubeMX 引脚分配"></div><span class="tag">进行中</span><h3>STM32 / HAL / CubeMX</h3><p>从标准库迁移到 HAL，练习外设配置和工程组织。让熟悉的功能在新的工作方式里跑起来。</p></article><article class="learning-freertos"><div class="hal-code-watermark" aria-hidden="true"><img src="assets/vscode_code.png" alt="FreeRTOS 任务工程源码"></div><span class="tag">下一步</span><h3>FreeRTOS</h3><p>从任务调度、队列和信号量入手，尝试拆分采集、滤波和串口通信。把小实验组织得更清楚。</p></article></div><div class="task-flow"><span>采集任务</span><i>→</i><span>数据队列</span><i>→</i><span>滤波处理</span><i>→</i><span>串口回传</span></div>
+</section>
+<section class="section approach" id="approach"><span class="eyebrow">07 — HOW I WORK</span><h2>有想法，就先试试。</h2><p>遇到不懂的地方，和 AI 一起拆解、查资料、调试。能跑起来之后，再看哪里不对、哪里还能更好。</p><div class="approach-steps"><span>01 / 问清楚</span><span>02 / 做出来</span><span>03 / 实际验证</span><span>04 / 继续改</span></div></section>
+
+</div>
+
+<!-- Mistral-Style Dark Footer Track with Mascot Runway -->
+
+<!-- Mistral-Style Clean Dark Footer with Zero Bottom Blank Space -->
+<footer class="site-footer" id="site-footer">
+  <!-- Centered Mascot Pop-up (Rises directly from behind the rainbow sunset stripe on bottom overscroll) -->
+  <div class="mascot-stage" id="mascot-stage" aria-hidden="true">
+    <div class="mascot-frame">
+      <img src="assets/deepseek_maid.jpg" alt="DeepSeek 大肥鱼女仆 - ZipZipPipe" class="mascot-img" id="mascot-click-img" title="戳我一下~">
+    </div>
+  </div>
+
+  <!-- Retro Sunset Stripe (Mistral Signature atop the dark bar) -->
+  <div class="sunset-stripe" aria-hidden="true"></div>
+
+  <!-- Dark Footer Content -->
+  <div class="mistral-footer-content">
+    <div class="footer-inner">
+      <div class="mistral-footer-row">
+        <div class="footer-brand">
+          <span class="brand-symbol">CA</span>
+          <div class="footer-brand-info">
+            <strong>ʎɹɹɐƆ <i>/</i> Carry</strong>
+            <small>郑州大学自动化 · 个人工程主页 2026</small>
+          </div>
+        </div>
+
+        <nav class="footer-nav">
+          <a href="#projects">项目</a>
+          <a href="#direction">工业测量</a>
+          <a href="https://github.com/LilyCarry" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="#top" class="footer-back-top">返回顶部 ↑</a>
+        </nav>
+      </div>
+
+      <!-- Clean AI Acknowledgments inside the dark footer -->
+      <div class="footer-ack-bar">
+        <div class="footer-ack-tag">AI COLLABORATORS // 幕后工友</div>
+        <p class="footer-ack-text">
+          特别鸣谢 <strong>GPT 6 Astra</strong>、<strong>Gemini 3.8</strong>、<strong>DeepSeek</strong> 与 <strong>hy4</strong> 在思路拆解、3D 调试、页面构建与工程折腾中的大力支持。
+        </p>
+        <span class="footer-ack-sub">插画形象来自 B站 @ZipZipPipe · 仅作非商业学习与交流致谢</span>
+      </div>
+
+      <div class="mistral-footer-bottom">
+        <span>© 2026 ʎɹɹɐƆ · Carry · 自动化</span>
+        <a href="https://github.com/LilyCarry" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</main>
+<dialog id="model-dialog" class="model-dialog"><div class="dialog-header"><div><span class="eyebrow">INTERACTIVE / MPU6050</span><h2>让模型跟着你动。</h2></div><button class="close" data-close aria-label="关闭模型窗口">×</button></div><div id="full-stage" class="full-stage"></div><div class="model-control"><button data-mode="demo" class="active">演示姿态</button><button data-mode="manual">自由查看</button><button data-mode="phone">使用手机姿态</button><button id="calibrate">归零 / 重置视角</button></div><p id="sensor-status" role="status">演示姿态：可拖动旋转视角。这里展示的是模拟运动，不是已连接的 MPU6050 数据。</p><div class="readings"><span>ROLL <b id="read-roll">0.0°</b></span><span>PITCH <b id="read-pitch">0.0°</b></span><span>YAW <b id="read-yaw">0.0°</b></span></div></dialog>
+<dialog id="note-dialog" class="note-dialog"><form id="note-form"><div class="dialog-header"><h2 id="note-heading">留一条新线索。</h2><button type="button" class="close" data-close aria-label="关闭">×</button></div><label for="note-type">线索类型</label><select id="note-type"><option value="idea">灵感便签</option><option value="experiment">实验记录</option><option value="sticker">图标贴纸</option></select><label for="note-text">写点什么</label><textarea id="note-text" maxlength="100" rows="3">新想法：先做一个能运行的小版本。</textarea><label for="note-icon">选一个图标</label><select id="note-icon"><option value="✳">✳ 灵感</option><option value="▧">▧ 芯片</option><option value="⌘">⌘ 代码</option><option value="↗">↗ 下一步</option><option value="⚡">⚡ 动手</option><option value="✓">✓ 完成</option></select><p class="note-text">只保存在这台设备的浏览器中。双击便签可再次编辑。</p><div class="form-actions"><button type="button" id="delete-note" hidden>删除这张</button><button type="submit" class="solid-button">贴到线索板</button></div></form></dialog>
+<dialog id="image-dialog" class="image-dialog"><button class="close" data-close aria-label="关闭大图">×</button><img id="large-image" alt=""><p id="large-caption"></p></dialog>
+<div id="toast" role="status"></div>
+<script>
+(() => {
+  const switcher = document.getElementById('node-switcher');
+  if (!switcher) return;
+  const toggle = document.getElementById('node-toggle');
+  const menu = document.getElementById('node-menu');
+  const labelEl = document.getElementById('node-current-name');
+  const toastEl = document.getElementById('toast');
+
+  const host = window.location.hostname.toLowerCase();
+  let currentName = 'GitHub';
+  if (host.includes('pages.dev')) currentName = 'Cloudflare';
+  else if (host.includes('netlify.app')) currentName = 'Netlify';
+  else if (host.includes('localhost') || host.includes('127.0.0.1')) currentName = '本地测试';
+  else if (host.includes('lilycarry.github.io')) currentName = 'GitHub';
+  if (labelEl) labelEl.textContent = currentName;
+
+  // 高亮当前在用的源: 按 hostname 精确匹配 data-host
+  let matched = false;
+  menu.querySelectorAll('.node-item').forEach(item => {
+    const h = (item.dataset.host || '').toLowerCase();
+    const on = !!h && host === h;
+    if (on) matched = true;
+    item.classList.toggle('is-active', on);
+  });
+  // 兜底: file:// 或未知域名时高亮第一项 (GitHub 主源), 避免出现无高亮状态
+  if (!matched) {
+    const first = menu.querySelector('.node-item');
+    if (first) first.classList.add('is-active');
+  }
+
+  function showToastMsg(msg) {
+    if (toastEl) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastEl.timer);
+      toastEl.timer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+    }
+  }
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = menu.hidden;
+    menu.hidden = !willOpen;
+    toggle.setAttribute('aria-expanded', String(willOpen));
+    switcher.classList.toggle('is-open', willOpen);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!switcher.contains(e.target)) {
+      menu.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      switcher.classList.remove('is-open');
+    }
+  });
+
+  menu.querySelectorAll('.node-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      if (item.classList.contains('is-placeholder')) {
+        e.preventDefault();
+        const name = item.dataset.name || '该节点';
+        showToastMsg(`[${name}] 正在进行多源接入中，请先使用 GitHub Pages 主源`);
+        menu.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+        switcher.classList.remove('is-open');
+      }
+    });
+  });
+})();
+</script>
+
+</body></html>
