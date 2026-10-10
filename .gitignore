@@ -1,0 +1,5 @@
+# 本地/内部文件，不进仓库
+.workbuddy-ai/
+.wrangler/
+_cf_upload/
+node_modules/
