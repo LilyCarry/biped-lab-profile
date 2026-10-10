@@ -145,10 +145,18 @@
   if (labelEl) labelEl.textContent = currentName;
 
   // 高亮当前在用的源: 按 hostname 精确匹配 data-host
+  let matched = false;
   menu.querySelectorAll('.node-item').forEach(item => {
     const h = (item.dataset.host || '').toLowerCase();
-    item.classList.toggle('is-active', !!h && host === h);
+    const on = !!h && host === h;
+    if (on) matched = true;
+    item.classList.toggle('is-active', on);
   });
+  // 兜底: file:// 或未知域名时高亮第一项 (GitHub 主源), 避免出现无高亮状态
+  if (!matched) {
+    const first = menu.querySelector('.node-item');
+    if (first) first.classList.add('is-active');
+  }
 
   function showToastMsg(msg) {
     if (toastEl) {
