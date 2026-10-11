@@ -1070,3 +1070,26 @@
     line-height: 1.75;
   }
 }
+
+/* 移动端：避免标题"到把空间和距离量准。"9 字被硬切。
+   之前 clamp(38px,10.5vw,56px) 在 360-414px 视口下 9 字 nobr 宽度 > 可用宽度,
+   第二个 span 右端被裁。用户反馈工业测量专章在手机端被吞掉。 */
+@media (max-width: 760px) {
+  .direction-mobile {
+    padding: 70px 0 50px !important;
+    scroll-margin-top: 60px !important;
+  }
+  .direction-mobile h2 {
+    font-size: clamp(28px, 8.8vw, 36px) !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.04em !important;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
+  }
+  .direction-mobile p {
+    font-size: 14px !important;
+    line-height: 1.75 !important;
+    max-width: 560px !important;
+  }
+}
