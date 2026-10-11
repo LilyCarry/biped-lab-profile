@@ -9,7 +9,6 @@ REPO_NAME="biped-lab-profile"
 MARKER="MAINTENANCE_MODE_MARK_2026"
 URLS=(
   "https://lilycarry.github.io/biped-lab-profile/"
-  "https://bi-lab-pro.netlify.app/"
   "https://biped-lab-profile.pages.dev/"
 )
 

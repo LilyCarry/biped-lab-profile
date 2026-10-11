@@ -13,7 +13,6 @@ MARKER="MAINTENANCE_MODE_MARK_2026"
 LIVE_MARK="node-switcher"   # 正式页面里独有的标记
 URLS=(
   "https://lilycarry.github.io/biped-lab-profile/"
-  "https://bi-lab-pro.netlify.app/"
   "https://biped-lab-profile.pages.dev/"
 )
 
