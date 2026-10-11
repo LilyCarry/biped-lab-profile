@@ -1093,3 +1093,32 @@
     max-width: 560px !important;
   }
 }
+
+/* 移动端补回 01/02/03 —— 桌面 hero 展开面板在 <=1000px 被 display:none,
+   那三条(已有实践/为什么是测量/想尝试的方向)在手机平板上完全看不到。
+   这里在专章内放一份副本: 桌面(>1000px)隐藏, 手机平板(<=1000px)显示。
+   注意: 改动内容时 hero 面板那份和这里这份要同步改。 */
+.direction-notes {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .direction-notes {
+    display: block;
+    margin-top: 30px;
+    max-width: 620px;
+  }
+  .direction-notes .full-notes {
+    border-top-color: var(--line);
+  }
+  .direction-notes .full-notes > div {
+    border-bottom-color: var(--line);
+  }
+  .direction-notes .full-notes h3 {
+    font-size: 16px;
+  }
+  .direction-notes .full-notes p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
